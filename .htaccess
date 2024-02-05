@@ -1,0 +1,10 @@
+# Disable directory browsing
+Options All -Indexes
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymlinks
+	RewriteEngine On
+	# RewriteBase /
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,R=301]
+</IfModule>
