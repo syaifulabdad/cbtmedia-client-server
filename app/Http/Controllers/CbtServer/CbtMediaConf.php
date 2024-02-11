@@ -24,8 +24,10 @@ class CbtMediaConf extends Controller
     {
         $id = session('sekolah_id') ?? $id;
         $getToken = TarikData::where('nama', 'cbt-server')->first();
-        $this->serverUrl = (strpos($getToken->host, 'http') === false ? 'http://' : null) . "$getToken->host";
-        $this->serverToken = Crypt::decryptString($getToken->token);
+        $cbtUrl = $getToken->host ?? env('CBTMEDIA_URL');
+
+        $this->serverUrl = (strpos($cbtUrl, 'http') === false ? 'http://' : null) . "$cbtUrl";
+        $this->serverToken = ($getToken->token);
     }
 
     public function cekKoneksi()

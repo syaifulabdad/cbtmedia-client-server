@@ -225,7 +225,6 @@
                 @endforeach
             });
         }
-        getJumlahData();
 
         $('.btnSettingToken').click(function() {
             $('.is-invalid').removeClass('is-invalid');
@@ -280,6 +279,7 @@
             $('.btnCekKoneksi').html('Memeriksa Koneksi...');
             $.getJSON("{{ route('cekApiServer') }}", function(response) {
                 if (response.success) {
+                    getJumlahData();
                     $('.btnTarikData, .btnTarikDt').removeClass('d-none');
                     if (alert) {
                         Swal.fire({
@@ -317,7 +317,9 @@
             cekKoneksi(true);
         });
 
-        cekKoneksi(false);
+        setTimeout(() => {
+            cekKoneksi(false);
+        }, 1500);
 
         $('.btnTarikData').click(function() {
             $('.btnTarikData').html('Mengambil Data...');
@@ -366,7 +368,6 @@
                                         ],
                                     }).then(function(isConfirm) {
                                         if (isConfirm) {
-                                            // location.reload();
                                             getJumlahData();
                                         }
                                     });

@@ -2,13 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-layout-style="detached" data-sidebar="dark" data-topbar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-    <meta charset="utf-8" />
-    <title>@yield('title') | CBTmedia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('images/aplikasi-media.png') }}">
+    @include('layouts.title-meta')
     @include('layouts.head-css')
 </head>
 
@@ -36,7 +30,7 @@
 </div>
 <!-- END layout-wrapper -->
 
-@include('layouts.customizer')
+{{-- @include('layouts.customizer') --}}
 
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')

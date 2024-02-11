@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\CbtServer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sekolah;
 use App\Models\TarikData;
 use App\Models\TarikData as Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
 
 class SettingTokenController extends Controller
 {
+    // public $serverUrl = 'https://cbt.aplikasimedia.com/public';
     public function __construct()
     {
         $this->model = new Model;
@@ -76,8 +75,8 @@ class SettingTokenController extends Controller
             $cekData = TarikData::where('nama', 'cbt-server')->first();
 
             $data['nama'] = 'cbt-server';
-            $data['host'] = env('CBTMEDIA_URL');
-            $data['token'] = Crypt::encryptString($apiData['data']['token']);
+            // $data['host'] = env('CBTMEDIA_URL');
+            $data['token'] = ($apiData['data']['token']);
             if ($cekData) {
                 $cekData->update($data);
             } else {

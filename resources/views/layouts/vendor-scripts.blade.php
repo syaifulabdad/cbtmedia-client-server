@@ -19,7 +19,7 @@
 <script src="{{ URL::asset('vendor/datatables/dataTables.responsive.min.js') }}"></script>
 
 <!-- App js -->
-{{-- <script src="{{ URL::asset('build/js/app.js') }}"></script> --}}
+<script src="{{ URL::asset('build/js/app.js') }}"></script>
 
 @yield('script')
 
