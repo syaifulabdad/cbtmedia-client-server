@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CbtServer;
 use App\Http\Controllers\Controller;
 use App\Models\TarikData;
 use App\Models\TarikData as Model;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -84,8 +85,8 @@ class SettingTokenController extends Controller
                 TarikData::create($data);
             }
 
-            // Auth::user()->update(['sekolah_id' => $apiData['sekolah_id']]);
-            // session(['sekolah_id' => $apiData['sekolah_id']]);
+            User::where('id', session('user_id'))->update(['sekolah_id' => $apiData['sekolah_id']]);
+            session(['sekolah_id' => $apiData['sekolah_id']]);
 
             return response()->json(['status' => TRUE, 'message' => 'Data berhasil disimpan.!']);
         }
