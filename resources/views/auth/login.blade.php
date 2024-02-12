@@ -36,7 +36,7 @@
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
 
-                            <div class="card-body p-4">
+                            <div class="card-body p-4 bg-light">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">Selamat Datang !</h5>
                                     <p class="text-muted">Sign in to continue.</p>
