@@ -84,8 +84,8 @@ class SettingTokenController extends Controller
                 TarikData::create($data);
             }
 
-            Auth::user()->update(['sekolah_id' => $apiData['sekolah_id']]);
-            session(['sekolah_id' => $apiData['sekolah_id']]);
+            // Auth::user()->update(['sekolah_id' => $apiData['sekolah_id']]);
+            // session(['sekolah_id' => $apiData['sekolah_id']]);
 
             return response()->json(['status' => TRUE, 'message' => 'Data berhasil disimpan.!']);
         }
