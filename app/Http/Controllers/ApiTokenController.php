@@ -107,12 +107,13 @@ class ApiTokenController extends Controller
         }
 
         $user_id = session('user_id');
+        $expires_at = now()->addDays(180);
         if ($request->id) {
             Model::where('id', $request->id)->update(['name' => $request->name]);
             return response()->json(['status' => TRUE, 'message' => "Data berhasil diubah.!", 'token' => null]);
         } else {
             $dataUser = User::where('id', $user_id)->first();
-            $token = $dataUser->createToken($request->name)->plainTextToken;
+            $token = $dataUser->createToken($request->name, ['*'], $expires_at)->plainTextToken;
             return response()->json(['status' => TRUE, 'message' => "Token berhasil dibuat.!", 'token' => $token]);
         }
     }
