@@ -54,7 +54,7 @@
     @if (in_array(session('type'), ['admin', 'ops']))
         <li class="nav-item">
             <a class="nav-link menu-link" href="{{ url('api-token') }}">
-                <i class="ri-stack-line"></i> <span>API TOKEN</span>
+                <i class="ri-stack-line"></i> <span>API Token</span>
             </a>
         </li>
     @endif
