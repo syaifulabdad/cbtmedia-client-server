@@ -20,12 +20,13 @@ class ApiTokenController extends Controller
         $this->cUrl = url()->current();
 
         // data table
-        $this->dataTableOrder = ['name desc'];
+        $this->dataTableOrder = ['created_at desc'];
 
-        $this->dataTable['user.email'] = ['orderable' => true, 'searchable' => true, 'width' => '350px'];
+        $this->dataTable['user.email'] = ['label' => "User", 'orderable' => true, 'searchable' => true, 'width' => '350px'];
         $this->dataTable['name'] = ['orderable' => true, 'searchable' => true];
         // $this->dataTable['abilities'] = [];
-        // $this->dataTable['expires_at'] = [];
+        $this->dataTable['expires_at'] = [];
+        $this->dataTable['created_at'] = ['orderable' => true, 'width' => '170px'];
     }
 
     public function index(Request $request)
@@ -53,12 +54,15 @@ class ApiTokenController extends Controller
             }
         }
         $datatables = DataTables::of($builder)->smart(true)->addIndexColumn()
-            ->rawColumns(['action', 'tanggal']);
+            ->rawColumns(['action', 'tanggal', 'created_at']);
         $datatables->editColumn('email', function ($row) {
             return $row->user->email;
         });
         $datatables->addColumn('status', function ($row) {
             return $row->status ? "Aktif" : "-";
+        });
+        $datatables->editColumn('created_at', function ($row) {
+            return $row->created_at ? date('Y-m-d H:i:s', strtotime($row->created_at)) : null;
         });
         $datatables->addColumn('action', function ($row) {
             $btn = null;
@@ -82,7 +86,7 @@ class ApiTokenController extends Controller
             $formData['user_id'] = [
                 'label' => "User",
                 'type' => 'select',
-                'options' => (new User())->selectFormInput(['type' => 'admin']),
+                'options' => (new User())->selectFormInput(),
                 'validation' => 'required'
             ];
         }
