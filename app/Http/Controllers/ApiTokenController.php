@@ -82,16 +82,7 @@ class ApiTokenController extends Controller
 
     private function formData()
     {
-        if (session('admin')) {
-            $formData['user_id'] = [
-                'label' => "User",
-                'type' => 'select',
-                'options' => (new User())->selectFormInput(),
-                'validation' => 'required'
-            ];
-        }
         $formData['name'] = ['validation' => 'required'];
-        // $formData['expires_at'] = ['type' => 'date'];
 
         return $formData;
     }
@@ -116,10 +107,6 @@ class ApiTokenController extends Controller
         }
 
         $user_id = session('user_id');
-        if (session('admin')) {
-            $user_id = $request->user_id;
-        }
-
         if ($request->id) {
             Model::where('id', $request->id)->update(['name' => $request->name]);
             return response()->json(['status' => TRUE, 'message' => "Data berhasil diubah.!", 'token' => null]);
