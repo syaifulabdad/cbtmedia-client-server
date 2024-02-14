@@ -3,6 +3,13 @@
     Login
 @endsection
 @section('content')
+    <style>
+        .auth-one-bg {
+            background-image: url(/build/icons/img-1.png);
+            background-position: center;
+            background-size: cover
+        }
+    </style>
     <div class="auth-page-wrapper pt-5">
         <!-- auth page bg -->
         <div class="auth-one-bg-position auth-one-bg" id="auth-particles">

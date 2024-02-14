@@ -6,7 +6,7 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('build/images/logo-cbt.png') }}" alt="" height="22">
+                            <img src="{{ URL::asset('build/images/aplikasi-media.png') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
                             <img src="{{ URL::asset('build/images/logo-cbt.png') }}" alt="" height="17">
@@ -15,7 +15,7 @@
 
                     <a href="" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('build/images/logo-cbt.png') }}" alt="" height="22">
+                            <img src="{{ URL::asset('build/images/aplikasi-media.png') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
                             <img src="{{ URL::asset('build/images/logo-cbt.png') }}" alt="" height="17">
