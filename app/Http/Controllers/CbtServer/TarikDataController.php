@@ -57,7 +57,6 @@ class TarikDataController extends Controller
         $cbtconf->getAuth();
         $dataPusat = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/jumlah-data");
 
-        // dd($dataPusat['data']);
         $tarikData = TarikData::where('nama', 'cbt-server')->first();
         return response()->json([
             'status' => TRUE,
@@ -78,7 +77,7 @@ class TarikDataController extends Controller
                 'ruang' => Ruang::count(),
                 'peserta' => Peserta::count(),
                 'pengaturan' => Pengaturan::count(),
-                'user' => User::whereIn('type', ['siswa', 'ptk', 'ops'])
+                'user' => User::whereIn('type', ['siswa', 'pengawas', 'ops'])
                     ->whereIn('status', ['active', 'aktif'])
                     ->count(),
                 'referensi' => (Agama::count() + JenjangPendidikan::count() + TingkatKelas::count()),
@@ -214,7 +213,7 @@ class TarikDataController extends Controller
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('users');
-            foreach ($apiData['data']['userOps'] as $dt) {
+            foreach ($apiData['data']['ops'] as $dt) {
                 $cekData = User::withTrashed()->find($dt['id']);
                 $data = array();
                 foreach ($columns as $col) {
@@ -231,7 +230,24 @@ class TarikDataController extends Controller
                 }
             }
 
-            foreach ($apiData['data']['userSiswa'] as $dt) {
+            foreach ($apiData['data']['pengawas'] as $dt) {
+                $cekData = User::withTrashed()->find($dt['id']);
+                $data = array();
+                foreach ($columns as $col) {
+                    if ($col != 'id') {
+                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
+                    }
+                }
+
+                if ($cekData) {
+                    $cekData->update($data);
+                } else {
+                    $data['id'] = $dt['id'];
+                    User::create($data);
+                }
+            }
+
+            foreach ($apiData['data']['siswa'] as $dt) {
                 $cekData = User::withTrashed()->find($dt['id']);
                 $data = array();
                 foreach ($columns as $col) {

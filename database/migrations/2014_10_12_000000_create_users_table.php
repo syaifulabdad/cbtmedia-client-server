@@ -19,6 +19,8 @@ return new class extends Migration
             $table->uuid('sekolah_id')->nullable()->index();
             $table->uuid('ptk_id')->nullable()->index();
             $table->uuid('peserta_id')->nullable()->index();
+            $table->uuid('pengawas_id')->nullable()->index();
+
             $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('username')->nullable()->index();

@@ -67,11 +67,18 @@ class SettingTokenController extends Controller
 
     public function postToken(Request $request)
     {
-        $apiData = Http::post(env('CBTMEDIA_URL') . "/api/login", [
-            'email' => $request->email,
-            'password' => $request->password,
-            'ip_address' => request()->ip(),
-        ]);
+        $httpData['email'] = $request->email;
+        $httpData['password'] = $request->password;
+        $httpData['ip_address'] = request()->ip();
+
+        $apiData = Http::post(env('CBTMEDIA_URL') . "/api/login", $httpData);
+        $apiData2 = Http::post(env('CBTMEDIA_URL') . "/public/api/login", $httpData);
+
+        if (isset($apiData['success'])) {
+            $apiData = $apiData;
+        } elseif (isset($apiData2['success'])) {
+            $apiData = $apiData2;
+        }
 
         if ($apiData['success']) {
             $cekData = TarikData::where('nama', 'cbt-server')->first();

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->uuid('rombel')->nullable()->index();
             $table->uuid('jurusan_id')->nullable()->index();
             $table->uuid('jurusan')->nullable()->index();
+            $table->integer('tingkat_id')->nullable()->index();
+            $table->string('tingkat')->nullable()->index();
 
             $table->string('nama')->nullable()->index();
             $table->string('jenis_kelamin')->nullable();
@@ -42,6 +44,7 @@ return new class extends Migration
             $table->integer('status_login')->default(0)->index();
             $table->dateTime('terakhir_login')->nullable();
             $table->uuid('login_uuid')->nullable();
+            $table->ipAddress('ip_address')->nullable();
             $table->integer('bypass_login')->default(0);
 
             $table->integer('sesi_hari_1')->nullable()->index();

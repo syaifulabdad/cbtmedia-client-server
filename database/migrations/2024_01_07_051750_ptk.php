@@ -26,6 +26,8 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('jenis_ptk_id')->nullable();
             $table->string('jenis_ptk')->nullable();
+            $table->string('password')->nullable();
+            $table->integer('status')->default(1);
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();

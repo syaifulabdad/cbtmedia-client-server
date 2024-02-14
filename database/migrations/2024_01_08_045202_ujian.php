@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('nama')->index();
             $table->string('semester_id', 36)->index();
             $table->date('tanggal')->nullable();
+            $table->integer('tahun')->nullable();
+            $table->integer('bulan')->nullable();
             $table->integer('jumlah_hari')->default(1);
             $table->integer('jumlah_sesi')->default(1);
             $table->integer('status')->default(1);
