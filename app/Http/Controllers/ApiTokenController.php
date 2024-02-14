@@ -25,8 +25,8 @@ class ApiTokenController extends Controller
         $this->dataTable['user.email'] = ['label' => "User", 'orderable' => true, 'searchable' => true, 'width' => '350px'];
         $this->dataTable['name'] = ['orderable' => true, 'searchable' => true];
         // $this->dataTable['abilities'] = [];
-        $this->dataTable['expires_at'] = [];
         $this->dataTable['created_at'] = ['orderable' => true, 'width' => '170px'];
+        $this->dataTable['expires_at'] = [];
     }
 
     public function index(Request $request)
