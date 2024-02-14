@@ -82,7 +82,7 @@ class ApiTokenController extends Controller
             $formData['user_id'] = [
                 'label' => "User",
                 'type' => 'select',
-                'options' => (new User())->selectFormInput(),
+                'options' => (new User())->selectFormInput(['type' => 'admin']),
                 'validation' => 'required'
             ];
         }
