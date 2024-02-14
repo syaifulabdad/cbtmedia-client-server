@@ -15,7 +15,6 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        session(['syaiful2' => 'abdad']);
         return view('dashboard')->with([
             'title' => $this->title,
             'cUrl' => $this->cUrl,
