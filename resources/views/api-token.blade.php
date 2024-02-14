@@ -53,7 +53,7 @@
     </div>
 
     <div class="modal fade" id="modal-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
                     <h5 class="modal-title" id="exampleModalLabel">&nbsp;</h5>
@@ -73,8 +73,8 @@
                                     @endisset
 
                                     <div class="row mb-2">
-                                        <label for="" class="col-sm-4 col-form-label">{!! $value['label'] ?? ucwords(strtolower(str_replace(['_id', '_'], ['', ' '], $key))) !!}</label>
-                                        <div class="{{ isset($value['colWidth']) ? $value['colWidth'] : 'col-sm-8' }}">
+                                        <label for="" class="col-sm-12 col-form-label">{!! $value['label'] ?? ucwords(strtolower(str_replace(['_id', '_'], ['', ' '], $key))) !!}</label>
+                                        <div class="{{ isset($value['colWidth']) ? $value['colWidth'] : 'col-sm-12' }}">
                                             @if (isset($value['type']) && $value['type'] == 'select')
                                                 @if (isset($value['options']))
                                                     <select name="{{ $key }}{{ isset($value['multiple']) && $value['multiple'] ? '[]' : null }}" class="form-control {{ isset($value['class']) ? $value['class'] : null }} {{ isset($value['select2']) ? 'select2' : null }}" {{ isset($value['multiple']) && $value['multiple'] ? 'multiple' : null }}>
