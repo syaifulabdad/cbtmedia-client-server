@@ -26,6 +26,11 @@ class BankSoal extends Model
         });
     }
 
+    function soal()
+    {
+        return $this->hasMany(Soal::class);
+    }
+
     function ujian()
     {
         return $this->belongsTo(Ujian::class);
@@ -44,5 +49,15 @@ class BankSoal extends Model
     function jurusan()
     {
         return $this->belongsTo(Jurusan::class);
+    }
+
+    function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'id', 'bank_soal_id');
+    }
+
+    function status_ujian()
+    {
+        return $this->hasMany(StatusUjian::class)->where('status', 1);
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ResetPesertaController;
 use App\Http\Controllers\StatusPesertaUjianController;
 use App\Http\Controllers\StatusUjianController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,12 @@ Route::get('/', [LoginController::class, 'index']);
 Route::controller(LoginController::class)->group(function () {
     Route::get('login', 'index')->name('login');
     Route::post('login/proses', 'proses');
-    Route::post('logout', 'logout');
+    Route::post('logout', 'logout')->name('logout');
+    Route::get('logout', 'logout');
 });
 
 // panel
-Route::middleware('auth')->group(function () {
+Route::middleware(['isAdmin'])->group(function () {
     Route::auto('dashboard', DashboardController::class);
     Route::auto('profile', UserProfileController::class);
     Route::auto('api-token', ApiTokenController::class);
@@ -34,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::auto('status-ujian', StatusUjianController::class);
     Route::auto('status-peserta-ujian', StatusPesertaUjianController::class);
     Route::auto('reset-peserta', ResetPesertaController::class);
+
+    Route::auto('user-proktor', UserController::class);
+    Route::auto('user-pengawas', UserController::class);
+    Route::auto('user-siswa', UserController::class);
 });
 
 // client

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Peserta as Model;
+use App\Models\Ruang;
+use App\Models\User as Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
@@ -19,15 +20,15 @@ class ResetPesertaController extends Controller
         $this->cUrl = url()->current();
 
         // data table
-        $this->dataTableOrder = ['terakhir_login desc', 'status desc'];
+        $this->dataTableOrder = ['last_login desc', 'status_login desc'];
 
         $this->dataTable['dataCheck'] = ['label' => "<input type='checkbox' class='check-all' value='check-all'>", 'className' => 'text-center', 'width' => '10px'];
-        $this->dataTable['nama'] = [];
-        $this->dataTable['nis'] = ['label' => "NIS / NISN"];
-        $this->dataTable['rombel'] = [];
-        $this->dataTable['ruang'] = [];
-        $this->dataTable['terakhir_login'] = ['orderable' => true, 'searchable' => true];
-        $this->dataTable['status'] = ['orderable' => true, 'searchable' => true];
+        $this->dataTable['name'] = [];
+        // $this->dataTable['username'] = ['label' => "NIS / NISN"];
+        $this->dataTable['peserta.nama_rombel'] = ['label' => "Rombel", 'orderable' => true, 'searchable' => true];
+        $this->dataTable['peserta.nama_ruang'] = ['label' => "Ruang", 'orderable' => true, 'searchable' => true];
+        $this->dataTable['last_login'] = ['orderable' => true, 'searchable' => true];
+        $this->dataTable['status_login'] = ['orderable' => true, 'searchable' => true, 'width' => '100px'];
     }
 
     public function index(Request $request)
@@ -39,23 +40,18 @@ class ResetPesertaController extends Controller
             'dataTable' => $this->dataTable,
             'dataTableOrder' => $this->dataTableOrder,
             'dataTableFilter' => $this->dataTableFilter,
-            'formData' => $this->formData(),
+            'getRuang' => Ruang::orderBy('nama', 'asc')->get(),
         ]);
     }
 
     public function dataTables(Request $request)
     {
-        $builder = Model::select('*');
+        $builder = Model::select('*')->with(['peserta']);
         $builder->where('status_login', 1);
 
-        if (isset($this->dataTableFilter)) {
-            foreach ($this->dataTableFilter as $key => $value) {
-                $key2 = isset(explode('.', $key)[1]) ? explode('.', $key)[1] : $key;
-                if (request()->has($key2)) {
-                    $builder->where("$key", 'like', "%" . request("$key2") . "%");
-                }
-            }
-        }
+        if ($request->ruang_id)
+            $builder->whereRelation('peserta', 'ruang_id', $request->ruang_id);
+
 
         $datatables = DataTables::of($builder)->smart(true)->addIndexColumn()
             ->rawColumns(['action', 'dataCheck']);
@@ -63,13 +59,14 @@ class ResetPesertaController extends Controller
         $datatables->addColumn('dataCheck', function ($row) {
             return "<input type='checkbox' value='" . $row->id . "' name='id[]' class='data-check'>";
         });
-        $datatables->editColumn('status', function ($row) {
-            return $row->status ? "Aktif" : "-";
+        $datatables->editColumn('status_login', function ($row) {
+            return $row->status_login ? "Login" : "-";
         });
-        $datatables->editColumn('nis', function ($row) {
-            $dt = $row->nis;
-            $dt .= $row->nis && $row->nisn ? ' / ' . $row->nisn : $row->nisn;
-            return $dt;
+        $datatables->addColumn('nama_rombel', function ($row) {
+            return $row->peserta ? $row->peserta->nama_rombel : null;
+        });
+        $datatables->addColumn('nama_ruang', function ($row) {
+            return $row->peserta ? $row->peserta->nama_ruang : null;
         });
         $datatables->addColumn('action', function ($row) {
             $btn = null;
@@ -84,58 +81,6 @@ class ResetPesertaController extends Controller
     {
         $getData = Model::find($id);
         return response()->json($getData);
-    }
-
-    private function formData()
-    {
-        $formData['status'] = [
-            'type' => 'select',
-            'options' => [
-                '1' => "Aktif",
-                '0' => "Non Aktif"
-            ],
-            'colWidth' => "col-md-4",
-            'validation' => 'required'
-        ];
-        return $formData;
-    }
-
-    public function postStore(Request $request)
-    {
-        // variable validasi
-        foreach ($this->formData() as $key => $value) {
-            if (isset($value['validation']) && $value['validation']) {
-                $validate[$key] = $value['validation'];
-            }
-        }
-
-        if (isset($validate)) {
-            $validator = Validator::make($request->all(), $validate);
-            if ($validator->fails()) {
-                return response()->json([
-                    'inputerror' => $validator->errors()->keys(),
-                    'error_string' => $validator->errors()->all()
-                ]);
-            }
-        }
-
-        // variable data
-        foreach ($this->formData() as $key => $value) {
-            if ($key == 'password') {
-                if ($request->{$key})
-                    $data[$key] = ($request->{$key});
-            } else {
-                $data[$key] = $request->{$key};
-            }
-        }
-
-        if ($request->id) {
-            Model::where('id', $request->id)->update($data);
-        } else {
-            $data['sekolah_id'] = session('sekolah_id');
-            Model::create($data);
-        }
-        return response()->json(['status' => TRUE]);
     }
 
     public function postReset(string $id = null)

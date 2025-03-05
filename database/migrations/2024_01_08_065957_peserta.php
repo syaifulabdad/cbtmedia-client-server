@@ -16,18 +16,19 @@ return new class extends Migration
             $table->uuid('sekolah_id')->index();
             $table->uuid('ujian_id')->index();
             $table->uuid('ruang_id')->nullable()->index();
-            $table->uuid('ruang')->nullable()->index();
+            $table->uuid('nama_ruang')->nullable()->index();
 
             $table->uuid('anggota_rombel_id')->nullable()->index();
             $table->uuid('peserta_didik_id')->nullable()->index();
             $table->uuid('rombongan_belajar_id')->nullable()->index();
-            $table->uuid('rombel')->nullable()->index();
+            $table->uuid('nama_rombel')->nullable()->index();
             $table->uuid('jurusan_id')->nullable()->index();
-            $table->uuid('jurusan')->nullable()->index();
+            $table->uuid('nama_jurusan')->nullable()->index();
             $table->integer('tingkat_id')->nullable()->index();
             $table->string('tingkat')->nullable()->index();
 
             $table->string('nama')->nullable()->index();
+            $table->string('nama_peserta')->nullable()->index();
             $table->string('jenis_kelamin')->nullable();
             $table->string('nik')->nullable()->index();
             $table->string('nis')->nullable()->index();
@@ -40,12 +41,8 @@ return new class extends Migration
             $table->text('foto')->nullable();
             $table->integer('status')->default(1);
 
+            $table->string('username')->nullable();
             $table->string('password')->nullable();
-            $table->integer('status_login')->default(0)->index();
-            $table->dateTime('terakhir_login')->nullable();
-            $table->uuid('login_uuid')->nullable();
-            $table->ipAddress('ip_address')->nullable();
-            $table->integer('bypass_login')->default(0);
 
             $table->integer('sesi_hari_1')->nullable()->index();
             $table->integer('sesi_hari_2')->nullable()->index();

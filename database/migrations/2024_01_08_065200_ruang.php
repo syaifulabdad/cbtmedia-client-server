@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('ujian_id')->index();
             $table->uuid('server_id')->nullable()->index();
             $table->string('nama')->index();
+            $table->string('nama_ruang')->index()->nullable();
             $table->string('host')->nullable()->index();
             $table->string('mac_address')->nullable()->index();
             $table->string('username')->nullable()->index();

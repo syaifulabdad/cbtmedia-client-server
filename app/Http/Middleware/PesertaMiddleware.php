@@ -12,14 +12,15 @@ class PesertaMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (session('peserta_id')) {
-            $peserta = Peserta::find(session('peserta_id'));
+        $user = auth()->user();
+        if ($user->type == 'siswa') {
+            $peserta = Peserta::find($user->peserta_id);
             if ($peserta) {
-                if ($peserta->status_login == 0) {
+                if ($user->status_login == 0) {
                     $request->session()->invalidate();
                     return redirect('/login')->with('message', 'Login to access the Panel');
                 } else {
-                    if ($peserta->login_uuid != session('login_uuid')) {
+                    if ($user->login_uuid != session('login_uuid')) {
                         $request->session()->invalidate();
                         return redirect('/login')->with('message', 'Login to access the Panel')->withErrors([
                             'error' => "Terdeteksi Login Ganda.!!"

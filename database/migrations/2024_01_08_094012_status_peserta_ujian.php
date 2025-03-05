@@ -18,12 +18,10 @@ return new class extends Migration
             $table->uuid('ruang_id')->nullable()->index();
             $table->uuid('bank_soal_id')->index();
             $table->uuid('status_ujian_id')->index();
-            $table->integer('hari_ke')->nullable()->index();
-            $table->integer('sesi_ke')->nullable()->index();
             $table->uuid('peserta_id')->index();
 
             $table->integer('tingkat_id')->nullable()->index();
-            $table->string('jurusan_id', 225)->nullable()->index();
+            $table->string('jurusan_id', 36)->nullable()->index();
             $table->uuid('rombongan_belajar_id')->nullable()->index();
 
             $table->integer('alokasi_waktu_peserta')->nullable();

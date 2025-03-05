@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('dapodik_id')->nullable()->index();
             $table->uuid('sekolah_id')->index();
             $table->string('nama')->index();
+            $table->string('nama_peserta_didik')->index()->nullable();
             $table->string('jenis_kelamin')->nullable();
             $table->string('nik')->nullable()->index();
             $table->string('nis')->nullable()->index();

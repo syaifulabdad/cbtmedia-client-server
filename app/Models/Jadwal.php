@@ -19,9 +19,14 @@ class Jadwal extends Model
     protected static function booted()
     {
         static::addGlobalScope('jadwal', function (Builder $builder) {
-            if (session('sekolah_id'))
-                $builder->where('jadwal.sekolah_id', session('sekolah_id'));
+            // if (session('sekolah_id'))
+            //     $builder->where('jadwal.sekolah_id', session('sekolah_id'));
         });
+    }
+
+    function bank_soal()
+    {
+        return $this->hasMany(BankSoal::class, 'id', 'bank_soal_id');
     }
 
     function selectFormInput($where = null)

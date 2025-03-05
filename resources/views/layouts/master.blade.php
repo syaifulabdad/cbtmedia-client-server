@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="semibox" data-sidebar-visibility="show" data-topbar="dark" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="img-2" data-preloader="disable">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal" data-sidebar-visibility="show" data-topbar="dark" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="img-2" data-preloader="disable">
 
 <head>
     @include('layouts.title-meta')
@@ -30,7 +30,7 @@
 </div>
 <!-- END layout-wrapper -->
 
-{{-- @include('layouts.customizer') --}}
+@include('layouts.customizer')
 
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')

@@ -1,4 +1,4 @@
-@extends('client.layouts.master-without-nav')
+@extends('client.layouts.master')
 @section('title')
     {{ $title }}
 @endsection

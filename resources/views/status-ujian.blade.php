@@ -3,6 +3,25 @@
     {{ $title }}
 @endsection
 
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2 {
+            /* z-index: 9999999 */
+            z-index: 50 !important;
+        }
+
+        td {
+            /* vertical-align: top !important; */
+        }
+
+        .table-dt td {
+            border: 0px !important;
+            /* padding: 0px !important; */
+        }
+    </style>
+@endsection
+
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
@@ -11,15 +30,43 @@
         @slot('title')
             {{ $title }}
         @endslot
+        @slot('title_sm')
+            {{ $title_sm }}
+        @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-xl-12 col-lg-12">
             <div>
                 <div class="card">
-                    <div class="card-header  border-0 d-flex align-items-center">
+                    <div class="card-header border-0 d-flex align-items-center pb-0">
+                        <div class="col-auto">
+                            <select id="jadwal_id" class="form-control form-select" onchange="getSelectBankSoal()">
+                                @foreach ($getJadwal as $jadwal)
+                                    <option value="{{ $jadwal->id }}" {{ $jadwal->tanggal == date('Y-m-d') ? 'selected' : null }}>{{ "Hari Ke $jadwal->hari_ke. " . date('D, d/m/Y', strtotime($jadwal->tanggal)) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-auto ms-2">
+                            <select id="bank_soal_id" class="form-control form-select">
+                            </select>
+                        </div>
+                        <div class="col-auto ms-2">
+                            <a href="javascript:void(0)" class="btn btn-primary btnSubmit"><i class="ri-search-line me-1"></i> Submit</a>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="card-header border-0 d-flex align-items-center pt-0 pb-0">
+                        <div class="col-auto me-2">
+                            <select id="ruang_id" class="form-control form-select" onchange="reload()">
+                                <option value="">Semua Ruang</option>
+                                @foreach ($getRuang as $ruang)
+                                    <option value="{{ $ruang->id }}">{{ $ruang->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-sm">
-                            <a href="javascript:void(0)" class="btn btn-primary btnCreate" id="btnCreate"><i class="ri-add-line me-1"></i> Tambah</a>
                         </div>
                         <div class="col-sm-auto">
                             <div class="d-flex gap-1 flex-wrap">
@@ -28,7 +75,6 @@
                         </div>
                     </div>
 
-                    <!-- end card header -->
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="dataTables" class="table table-nowrap table-bordered table-striped align-middle">
@@ -53,7 +99,7 @@
     </div>
 
     <div class="modal fade" id="modal-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
                     <h5 class="modal-title" id="exampleModalLabel">&nbsp;</h5>
@@ -61,45 +107,115 @@
                 </div>
                 <div class="modal-body">
                     <form id="form-data" class="tablelist-form" autocomplete="off">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        @csrf
                         <input type="hidden" class="form-control" name="id">
-                        @foreach ($formData as $key => $value)
-                            @isset($value['groupStart'])
-                                <div class="card card-info">
-                                    <div class="card-header">
-                                        <span class="card-title">{{ $value['groupStart'] }}</span>
-                                    </div>
-                                    <div class="card-body">
-                                    @endisset
+                        <input type="hidden" class="form-control" name="jadwal_id">
+                        <input type="hidden" class="form-control" name="bank_soal_id">
 
-                                    <div class="row mb-2">
-                                        <label for="" class="col-sm-4 col-form-label">{!! $value['label'] ?? ucwords(strtolower(str_replace(['_id', '_'], ['', ' '], $key))) !!}</label>
-                                        <div class="{{ isset($value['colWidth']) ? $value['colWidth'] : 'col-sm-8' }}">
-                                            @if (isset($value['type']) && $value['type'] == 'select')
-                                                @if (isset($value['options']))
-                                                    <select name="{{ $key }}{{ isset($value['multiple']) && $value['multiple'] ? '[]' : null }}" class="form-control {{ isset($value['class']) ? $value['class'] : null }} {{ isset($value['select2']) ? 'select2' : null }}" {{ isset($value['multiple']) && $value['multiple'] ? 'multiple' : null }}>
-                                                        @if (is_array($value['options']))
-                                                            @foreach ($value['options'] as $optionKey => $optionValue)
-                                                                <option value="{{ $optionKey }}">{{ $optionValue }}</option>
-                                                            @endforeach
-                                                        @else
-                                                            {!! $value['options'] !!}
-                                                        @endif
-                                                    </select>
-                                                @endif
-                                            @elseif (isset($value['type']) && $value['type'] == 'textarea')
-                                                <textarea name="{{ $key }}" class="form-control ">{{ isset($value['value']) ? $value['value'] : null }}</textarea>
-                                            @else
-                                                <input type="{{ isset($value['type']) ? $value['type'] : 'text' }}" name="{{ $key }}" value="{{ isset($value['value']) ? $value['value'] : null }}" class="form-control ">
-                                            @endif
-                                            <span class="invalid-feedback"></span>
-                                        </div>
-                                    </div>
-                                    @isset($value['groupEnd'])
-                                    </div>
-                                </div>
-                            @endisset
-                        @endforeach
+                        {{-- d-flex justify-content-end align-items-end pe-3 --}}
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Jadwal</label>
+                            <div class="col-md-8">
+                                <input type="text" id="jadwal" class="form-control" disabled>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Mata Pelajaran</label>
+                            <div class="col-md-8">
+                                <input type="text" id="mata_pelajaran" class="form-control" disabled>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Tingkat & Jurusan</label>
+                            <div class="col-md-8">
+                                <input type="text" id="tingkat_jurusan" class="form-control" disabled>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Rombongan Belajar</label>
+                            <div class="col-md-8">
+                                <select name="rombongan_belajar_id[]" class="form-control form-select rombongan_belajar_id select2" multiple>
+                                    <option value=""></option>
+                                </select>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Ruang Ujian</label>
+                            <div class="col-md-8">
+                                <select name="ruang_id" class="form-control form-select">
+                                    <option value="">Semua Ruang</option>
+                                    @foreach ($getRuang as $ruang)
+                                        <option value="{{ $ruang->id }}">{{ $ruang->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Sesi Ujian</label>
+                            <div class="col-md-4">
+                                <select name="sesi_ke" class="form-control form-select">
+                                    @foreach (range(1, $ujian->jumlah_sesi) as $sesi)
+                                        <option value="{{ $sesi }}">Sesi {{ $sesi }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Mode Waktu</label>
+                            <div class="col-md-6">
+                                <select name="mode_waktu" class="form-control form-select">
+                                    <option value="waktu-admin">Waktu Admin/Server</option>
+                                    <option value="waktu-peserta">Waktu Peserta</option>
+                                </select>
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-1 alokasiWaktuPeserta">
+                            <label for="" class="col-sm-4 col-form-label ">Alokasi Waktu Peserta</label>
+                            <div class="col-md-3">
+                                <input type="number" name="alokasi_waktu" class="form-control">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Menit</label>
+                        </div>
+                        <div class="row mb-1 alokasiWaktuSoal d-none">
+                            <label for="" class="col-sm-4 col-form-label ">Alokasi Waktu Soal</label>
+                            <div class="col-md-3">
+                                <input type="number" name="alokasi_waktu_soal" class="form-control">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Menit</label>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Waktu Mulai Ujian</label>
+                            <div class="col-md-3">
+                                <input type="time" name="waktu_mulai" class="form-control">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Jam : Menit</label>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Toleransi Keterlambatan</label>
+                            <div class="col-md-3">
+                                <input type="number" name="batas_masuk" class="form-control" value="0">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Menit</label>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Waktu Minimal Mengerjakan</label>
+                            <div class="col-md-3">
+                                <input type="number" name="waktu_minimal" class="form-control" value="0">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <label class="col-sm-4 col-form-label">Menit</label>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -114,6 +230,14 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.select2').select2({
+            dropdownParent: $("#modal-data"),
+            width: '100%',
+        });
+    </script>
+
     <script>
         var table;
         var ordering = {{ isset($dataTableOrder) ? 'true' : 'false' }};
@@ -143,10 +267,10 @@
                     sSearchPlaceholder: 'Search',
                     sLengthMenu: '_MENU_',
                 },
-                "paging": true,
-                "searching": true,
+                "paging": false,
+                "searching": false,
                 "ordering": ordering,
-                "info": true,
+                "info": false,
                 "autoWidth": false,
                 "lengthChange": true,
                 "bDestroy": true,
@@ -158,6 +282,9 @@
                     "type": "GET",
                     data: function(dt) {
                         dt._token = "{{ csrf_token() }}";
+                        dt.jadwal_id = $('#jadwal_id').val();
+                        dt.ruang_id = $('#ruang_id').val();
+
                         @isset($dataTableFilter)
                             @foreach ($dataTableFilter as $key => $value)
                                 dt.{{ isset(explode('.', $key)[1]) ? explode('.', $key)[1] : $key }} = $('#{{ isset(explode('.', $key)[1]) ? explode('.', $key)[1] : $key }}').val();
@@ -286,16 +413,62 @@
     </script>
 
     <script>
-        $('.btnCreate').click(function() {
-            save = 'add';
+        $('#jadwal_id').change(function() {});
+
+        function getSelectBankSoal() {
+            $('#bank_soal_id').html('<option selected disabled>Memuat data...</option>');
+            $.get('{{ url('status-ujian/select-bank-soal') }}', {
+                'jadwal_id': $('#jadwal_id').val(),
+            }, function(response) {
+                $('#bank_soal_id').html(response);
+            });
+        }
+        getSelectBankSoal();
+
+        $('[name="mode_waktu"]').change(function() {
+            var mode_waktu = $(this).val();
+            if (mode_waktu == 'waktu-peserta') {
+                $('.alokasiWaktuSoal').removeClass('d-none');
+                $('[name="alokasi_waktu"]').focus().select();
+            } else {
+                $('.alokasiWaktuSoal').addClass('d-none');
+                $('[name="alokasi_waktu"]').focus().select();
+            }
+        });
+
+        $('.btnSubmit').click(function() {
             $('[name="id"]').val(null);
             $('#form-data')[0].reset();
             $('.is-invalid').removeClass('is-invalid');
             $('.invalid-feedback').empty();
-            $('[name="nama"]').focus();
 
-            $('.modal-title').html('Tambah');
-            $('#modal-data').modal('show');
+            $.get("{{ $cUrl }}/bank-soal", {
+                'bank_soal_id': $('#bank_soal_id').val(),
+                'jadwal_id': $('#jadwal_id').val(),
+            }, function(response) {
+                if (response.status) {
+                    $('[name="jadwal_id"]').val(response.jadwal.id);
+                    $('[name="bank_soal_id"]').val(response.id);
+
+                    $('#jadwal').val('Hari ke ' + response.jadwal.hari_ke + " Tanggal " + response.jadwal.tanggal);
+                    $('#mata_pelajaran').val(response.nama_mapel);
+                    $('#tingkat_jurusan').val("Tingkat Kelas: " + response.tingkat + ", Jurusan: " + (response.nama_jurusan));
+
+                    $('[name="alokasi_waktu"]').val(response.alokasi_waktu);
+                    $('[name="alokasi_waktu_soal"]').val(response.alokasi_waktu);
+                    $('.alokasiWaktuSoal').addClass('d-none');
+                    $('[name="waktu_mulai"]').val(response.waktu_mulai);
+                    $('.rombongan_belajar_id').html(response.selectRombel);
+                    $('.rombongan_belajar_id').select2().trigger('change');
+
+                    $('.modal-title').html('Aktifkan Soal Ujian');
+                    $('#modal-data').modal('show');
+
+                    setTimeout(() => {
+                        $('[name="ruang_id"]').focus();
+                    }, 1000);
+                }
+            });
         });
 
         $('body').on('click', '.btnEdit', function() {
@@ -306,25 +479,31 @@
             var id = $(this).data('id');
             $('[name="id"]').val(id);
 
-            $.get("{{ $cUrl }}/edit/" + id, function(data) {
-                $('[name="nama"]').focus();
-                $('[name="id"]').val(id);
+            $.get("{{ $cUrl }}/edit/" + id, function(response) {
+                $('[name="jadwal_id"]').val(response.jadwal_id);
+                $('[name="bank_soal_id"]').val(response.bank_soal_id);
 
-                @foreach ($formData as $key => $value)
-                    @if (isset($value['type']))
-                        @if (!in_array($value['type'], ['file', 'password', 'select2']))
-                            $('[name="{{ $key }}"]').val(data.{{ $key }});
-                        @endif
+                $('#jadwal').val('Hari ke ' + response.hari_ke + " Tanggal " + response.tanggal);
+                $('#mata_pelajaran').val(response.nama_mapel);
+                $('#tingkat_jurusan').val("Tingkat Kelas: " + response.bank_soal.tingkat + ", Jurusan: " + response.nama_jurusan);
 
-                        @if (isset($value['select2']) && $value['select2'])
-                            $('[name="{{ $key }}"]').val(data.{{ $key }}).trigger('change');
-                        @endif
-                    @else
-                        $('[name="{{ $key }}"]').val(data.{{ $key }});
-                    @endif
-                @endforeach
+                $('[name="mode_waktu"]').val(response.mode_waktu);
+                $('[name="alokasi_waktu"]').val(response.alokasi_waktu_peserta);
+                $('[name="alokasi_waktu_soal"]').val(response.alokasi_waktu_soal);
+                if (response.mode_waktu == 'waktu-peserta') {
+                    $('.alokasiWaktuSoal').removeClass('d-none');
+                } else {
+                    $('.alokasiWaktuSoal').addClass('d-none');
+                }
 
-                $('.modal-title').html('Edit');
+                $('.rombongan_belajar_id').html(response.selectRombel);
+                $('[name="ruang_id"]').val(response.ruang_id);
+                $('[name="sesi_ke"]').val(response.sesi_ke);
+                $('[name="waktu_mulai"]').val(response.jam);
+                $('[name="batas_masuk"]').val(response.batas_masuk);
+                $('[name="waktu_minimal"]').val(response.waktu_minimal);
+
+                $('.modal-title').html('Edit Status Soal');
                 $('#modal-data').modal('show');
             });
         });
@@ -351,11 +530,19 @@
                             icon: "success",
                         });
                     } else {
-                        for (var i = 0; i < data.error_string.length; i++) {
-                            if (data.error_string[i]) {
-                                $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid').next(
-                                    '.invalid-feedback').html(
-                                    data.error_string[i]);
+                        if (data.message) {
+                            Swal.fire({
+                                title: "Gagal.!!",
+                                text: data.message,
+                                icon: "warning",
+                            });
+                        } else {
+                            for (var i = 0; i < data.error_string.length; i++) {
+                                if (data.error_string[i]) {
+                                    $('[name="' + data.inputerror[i] + '"]').addClass('is-invalid').next(
+                                        '.invalid-feedback').html(
+                                        data.error_string[i]);
+                                }
                             }
                         }
                     }
@@ -368,5 +555,13 @@
                 }
             });
         });
+
+        function tampilkanRombel(value) {
+            Swal.fire({
+                title: "Daftar Rombel",
+                text: value,
+                icon: "info",
+            });
+        }
     </script>
 @endsection

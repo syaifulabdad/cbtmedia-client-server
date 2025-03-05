@@ -63,7 +63,7 @@
 
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username" name="email" placeholder="Username" value="{{ old('email') }}">
+                                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ old('username') }}">
                                         </div>
 
                                         <div class="mb-3">

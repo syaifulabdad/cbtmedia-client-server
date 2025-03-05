@@ -29,6 +29,7 @@ class User extends Authenticatable
         'sekolah_id',
         'ptk_id',
         'peserta_id',
+        'pengawas_id',
         'username',
         'email',
         'password',
@@ -90,7 +91,17 @@ class User extends Authenticatable
 
     function peserta()
     {
-        return $this->hasMany(Peserta::class);
+        return $this->belongsTo(Peserta::class);
+    }
+
+    function pengawas()
+    {
+        return $this->belongsTo(Pengawas::class);
+    }
+
+    function proktor()
+    {
+        return $this->belongsTo(Ruang::class, 'id', 'id');
     }
 
     function selectFormInput($where = null)

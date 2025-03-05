@@ -76,6 +76,13 @@
                                         <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-mata-pelajaran', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
+                                        <th>Data PTK</th>
+                                        <td class="text-center pusat-mapel"></td>
+                                        <td class="text-center local-mapel"></td>
+                                        <td class="text-center status-mapel"></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-ptk', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                    </tr>
+                                    <tr>
                                         <th>Data Rombongan Belajar / Kelas</th>
                                         <td class="text-center pusat-rombel"></td>
                                         <td class="text-center local-rombel"></td>
@@ -349,7 +356,7 @@
                     } else {
 
                         @php
-                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'user', 'referensi'];
+                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'user', 'referensi'];
                         @endphp
 
                         @foreach ($dataArr as $key => $data)

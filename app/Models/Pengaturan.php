@@ -19,8 +19,8 @@ class Pengaturan extends Model
     protected static function booted()
     {
         static::addGlobalScope('pengaturan', function (Builder $builder) {
-            if (session('sekolah_id'))
-                $builder->where('pengaturan.sekolah_id', session('sekolah_id'));
+            // if (session('sekolah_id'))
+            //     $builder->where('pengaturan.sekolah_id', session('sekolah_id'));
         });
     }
 }

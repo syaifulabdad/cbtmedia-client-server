@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('dapodik_id', 36)->nullable()->index();
             $table->uuid('sekolah_id')->nullable()->index();
             $table->string('nama')->index();
+            $table->string('nama_mapel')->index()->nullable();
             $table->string('kode')->nullable();
             $table->string('kelompok')->nullable();
             $table->integer('mapel_agama')->default(0);

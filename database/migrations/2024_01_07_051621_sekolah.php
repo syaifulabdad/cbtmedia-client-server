@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('dapodik_id')->nullable()->index();
             $table->string('layanan_id', 36)->nullable()->index();
             $table->string('nama')->index('nama_sekolah');
+            $table->string('nama_sekolah')->index()->nullable();
             $table->string('npsn')->index('npsn');
             $table->enum('jenjang', ['PAUD', 'SD', 'SMP', 'SMA'])->index('jenjang');
             $table->string('status_sekolah')->nullable()->index();

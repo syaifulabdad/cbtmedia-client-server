@@ -20,8 +20,8 @@ class AbsenPesertaUjian extends Model
     protected static function booted()
     {
         static::addGlobalScope('absen_peserta_ujian', function (Builder $builder) {
-            if (session('sekolah_id'))
-                $builder->where('absen_peserta_ujian.sekolah_id', session('sekolah_id'));
+            // if (session('sekolah_id'))
+            //     $builder->where('absen_peserta_ujian.sekolah_id', session('sekolah_id'));
         });
     }
 

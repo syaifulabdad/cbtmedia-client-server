@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('sekolah_id')->index();
             $table->string('nama')->index();
+            $table->string('nama_ujian')->index()->nullable();
             $table->string('semester_id', 36)->index();
             $table->date('tanggal')->nullable();
             $table->integer('tahun')->nullable();

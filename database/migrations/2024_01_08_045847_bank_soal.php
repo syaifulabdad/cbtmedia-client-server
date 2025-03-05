@@ -15,16 +15,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('sekolah_id')->index();
             $table->uuid('ptk_id')->nullable()->index();
-            $table->uuid('ptk')->nullable()->index();
+            $table->uuid('nama_ptk')->nullable()->index();
 
             $table->uuid('ujian_id')->nullable()->index();
             $table->string('mata_pelajaran_id', 36)->nullable()->index();
-            $table->string('mata_pelajaran')->nullable()->index();
             $table->string('mapel_pilihan')->nullable()->index();
             $table->text('rombongan_belajar_id')->nullable();
-            $table->text('rombongan_belajar')->nullable();
             $table->string('jurusan_id')->nullable()->index();
-            $table->string('jurusan')->nullable()->index();
             $table->integer('tingkat_id')->nullable()->index();
             $table->string('tingkat')->nullable()->index();
             $table->integer('alokasi_waktu')->nullable();

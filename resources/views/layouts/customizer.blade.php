@@ -195,7 +195,7 @@
                 <div id="sidebar-visibility">
                     <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Visibility</h6>
                     <p class="text-muted">Choose show or Hidden sidebar.</p>
-                
+
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check card-radio">
@@ -678,7 +678,7 @@
                 <div id="preloader-menu">
                     <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Preloader</h6>
                     <p class="text-muted">Choose a preloader.</p>
-                    
+
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
@@ -736,7 +736,7 @@
                             <h5 class="fs-13 text-center mt-2">Disable</h5>
                         </div>
                     </div>
-                    
+
                 </div>
                 <!-- end preloader-menu -->
 
@@ -748,9 +748,6 @@
         <div class="row">
             <div class="col-6">
                 <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
-            </div>
-            <div class="col-6">
-                <a href="https://1.envato.market/velzon-admin" target="_blank" class="btn btn-primary w-100">Buy Now</a>
             </div>
         </div>
     </div>

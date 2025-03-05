@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('tingkat');
             $table->string('jurusan_id', 36)->index();
             $table->string('nama')->index();
+            $table->string('nama_rombel')->index()->nullable();
             $table->uuid('ptk_id')->nullable();
 
             $table->uuid('created_by')->nullable();

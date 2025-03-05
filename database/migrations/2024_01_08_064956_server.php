@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('sekolah_id')->index();
             $table->uuid('ujian_id')->index();
             $table->string('nama')->index();
+            $table->string('nama_server')->index()->nullable();
             $table->string('host')->nullable()->index();
             $table->integer('jumlah_maksimal_peserta')->nullable();
 

@@ -31,10 +31,15 @@ return new class extends Migration
             $table->string('whatsapp_number')->nullable();
             $table->text('avatar')->nullable();
             $table->text('google_id')->nullable();
-            $table->dateTime('last_login')->nullable();
             $table->string('type')->nullable();
             $table->string('role')->nullable();
             $table->string('status')->nullable();
+
+            $table->dateTime('last_login')->nullable();
+            $table->integer('status_login')->default(0);
+            $table->integer('bypass_login')->default(0);
+            $table->uuid('login_uuid')->nullable();
+            $table->ipAddress('ip_address')->nullable();
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
@@ -44,7 +49,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        User::create(['name' => 'Administrator', 'email' => 'admin@cbtmedia.com', 'password' => Hash::make('12345'), 'type' => 'admin', 'status' => 'active', 'email_verified_at' => '2022-01-02 17:04:58', 'created_at' => now(),]);
+        User::create(['name' => 'Administrator', 'email' => 'admin@cbtmedia.com', 'password' => Hash::make('admin@cbtmedia'), 'type' => 'admin', 'status' => 'active', 'email_verified_at' => '2022-01-02 17:04:58', 'created_at' => now(),]);
     }
 
     /**

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('sekolah_id')->nullable()->index();
             $table->uuid('kurikulum_id')->nullable()->index();
             $table->string('nama')->index();
+            $table->string('nama_jurusan')->index()->nullable();
             $table->string('kode')->nullable();
             $table->integer('urutan')->nullable();
             $table->integer('status')->default(1);

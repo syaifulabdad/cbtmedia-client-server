@@ -19,20 +19,6 @@ class LoginController extends Controller
     {
         if (session('user_id')) {
             if (session('type') == 'siswa') {
-                $peserta = Peserta::find(session('peserta_id'));
-                if ($peserta) {
-                    if ($peserta->status_login == 0) {
-                        request()->session()->invalidate();
-                        return redirect('/login')->with('message', 'Login to access the Panel');
-                    } else {
-                        if ($peserta->login_uuid != session('login_uuid')) {
-                            request()->session()->invalidate();
-                            return redirect('/login')->with('message', 'Login to access the Panel')->withErrors([
-                                'error' => "Terdeteksi Login Ganda.!!"
-                            ]);
-                        }
-                    }
-                }
                 return redirect()->intended('/home');
             } else {
                 return redirect()->intended('/dashboard');
@@ -47,29 +33,38 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        $validate['email'] = 'required';
+        $validate['username'] = 'required';
         $validate['password'] = 'required';
         $validator = Validator::make($request->all(), $validate);
         if ($validator->fails()) {
-            return back()->with(['email' => $request->email])->withErrors([
+            return back()->with(['username' => $request->username])->withErrors([
                 'error' => "Username dan Password wajib diisi."
             ]);
         }
 
-        $username = $request->email;
-        $password = $request->password;
+        $username = $request->input('username');
+        $getUserEmail = User::where('email', $username)->first();
+        $getUserUsername = User::where('username', $username)->first();
+        if ($getUserEmail) {
+            $getUser = $getUserEmail;
+            $kredensial = ['email' => $getUserEmail->email, 'password' => $request->password];
+        } elseif ($getUserUsername) {
+            $getUser = $getUserUsername;
+            $kredensial = ['username' => $getUserUsername->username, 'password' => $request->password];
+        } else {
+            return back()->with(['username' => $request->username])->withErrors([
+                'error' => "User tidak ditemukan.!!"
+            ]);
+        }
 
-        $type = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $request->merge([
-            $type => $username,
-            'password' => $request->password
-        ]);
-
-        $kredensial = $request->only('email', 'password');
+        // $kredensial = $request->only('email', 'password');
         if (Auth::attempt($kredensial)) {
+            Auth::loginUsingId($getUser->id);
             $request->session()->regenerate();
             $user = Auth::user();
             if (in_array($user->status, ['active', 'aktif'])) {
+                $loginUuid = Str::uuid()->toString();
+
                 $sessData['user_id'] = $user->id;
                 $sessData['name'] = $user->name;
                 $sessData['username'] = $user->username;
@@ -79,24 +74,38 @@ class LoginController extends Controller
                 $sessData['status'] = $user->status;
                 $sessData['sekolah_id'] = $user->sekolah_id ?? null;
                 $sessData['ptk_id'] = $user->ptk_id ?? null;
+                $sessData['pengawas_id'] = $user->pengawas_id ?? null;
+                $sessData['peserta_id'] = $user->peserta_id ?? null;
+                $sessData['login_uuid'] = $loginUuid;
 
                 $sekolah = Sekolah::find($user->sekolah_id);
                 $sessData['timezone'] = $sekolah ? $sekolah->timezone : 'Asia/Jakarta';
                 $sessData['nama_sekolah'] = $sekolah ? $sekolah->nama : null;
 
-                if (in_array($user->type, ['ops', 'ptk', 'admin'])) {
+                if (in_array($user->type, ['siswa'])) {
+                    $sessData['siswa'] = $user->type == 'siswa' ? true : false;
+                } else {
                     $sessData['admin'] = $user->type == 'admin' ? true : false;
                     $sessData['ops'] = $user->type == 'ops' ? true : false;
                     $sessData['ptk'] = $user->type == 'ptk' ? true : false;
-                } elseif (in_array($user->type, ['siswa'])) {
-                    $sessData['siswa'] = $user->type == 'siswa' ? true : false;
+                    $sessData['proktor'] = $user->type == 'proktor' ? true : false;
+                    $sessData['pengawas'] = $user->type == 'pengawas' ? true : false;
                 }
 
                 session($sessData);
+                User::where('id', $user->id)->update([
+                    'last_login' => date('Y-m-d H:i:s'),
+                    'status_login' => 1,
+                    'login_uuid' => $loginUuid,
+                    'ip_address' => request()->ip(),
+                ]);
 
-                User::where('id', $user->id)->update(['last_login' => date('Y-m-d H:i:s')]);
-
-                return redirect()->intended('/dashboard');
+                if ($user->type == 'siswa') {
+                    return redirect()->intended('/home');
+                    // dd(session());
+                } else {
+                    return redirect()->intended('/dashboard');
+                }
             } else {
                 return back()->withErrors([
                     'error' => "User tidak aktif.!"
@@ -104,57 +113,9 @@ class LoginController extends Controller
             }
         }
 
-        $getSiswaNis = Peserta::where('nis', $username)->first();
-        $getSiswaNisn = Peserta::where('nisn', $username)->first();
-        if ($getSiswaNis || $getSiswaNisn) {
-            if ($getSiswaNis) {
-                $getSiswa = $getSiswaNis;
-            } elseif ($getSiswaNisn) {
-                $getSiswa = $getSiswaNisn;
-            }
-
-            if ($getSiswa->password === $password) {
-                $request->session()->regenerate();
-                $user = $getSiswa;
-                if (in_array($user->status, ['active', 'aktif', 1])) {
-                    $loginUuid = Str::uuid()->toString();
-                    $sekolah = Sekolah::find($user->sekolah_id);
-                    $ujian = Ujian::where('sekolah_id', $user->sekolah_id)->first();
-
-                    $sessData['user_id'] = $user->id;
-                    $sessData['peserta_id'] = $user->id;
-                    $sessData['nama'] = $user->nama;
-                    $sessData['username'] = $username;
-                    $sessData['type'] = 'siswa';
-                    $sessData['user_image'] = $user->foto;
-                    $sessData['status'] = $user->status;
-                    $sessData['sekolah_id'] = $user->sekolah_id ?? null;
-                    $sessData['ujian_id'] = $ujian ? $ujian->ujian_id : null;
-                    $sessData['timezone'] = $sekolah ? $sekolah->timezone : 'Asia/Jakarta';
-                    $sessData['nama_sekolah'] = $sekolah ? $sekolah->nama : null;
-                    $sessData['login_uuid'] = $loginUuid;
-
-                    session($sessData);
-
-                    $user->update([
-                        'status_login' => 1,
-                        'terakhir_login' => date('Y-m-d H:i:s'),
-                        'login_uuid' => $loginUuid,
-                        'ip_address' => request()->ip(),
-                    ]);
-
-                    return redirect()->intended('/home');
-                } else {
-                    return back()->withErrors([
-                        'error' => "User tidak aktif.!"
-                    ]);
-                }
-            }
-        }
-
-        return back()->withErrors([
-            'error' => "Maaf username atau password anda salah.!"
-        ]);
+        // return back()->withErrors([
+        //     'error' => "Maaf username atau password anda salah.!"
+        // ]);
     }
 
     public function logout(Request $request)

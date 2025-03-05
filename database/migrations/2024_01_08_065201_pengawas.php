@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('ujian_id')->index();
 
             $table->string('nama')->nullable()->index();
+            $table->string('nama_pengawas')->nullable()->index();
 
             $table->date('tanggal')->nullable()->index();
             $table->dateTime('aktivasi')->nullable()->index();

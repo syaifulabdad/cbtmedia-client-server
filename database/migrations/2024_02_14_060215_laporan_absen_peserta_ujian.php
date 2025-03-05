@@ -26,6 +26,7 @@ return new class extends Migration
             $table->uuid('ruang_id')->nullable()->index();
             $table->uuid('pengawas_id')->nullable()->index();
             $table->string('status')->default("H")->index();
+            $table->dateTime('kirim_data')->nullable();
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();

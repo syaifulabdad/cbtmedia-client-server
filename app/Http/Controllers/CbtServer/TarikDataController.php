@@ -9,6 +9,7 @@ use App\Models\Jadwal;
 use App\Models\Jurusan;
 use App\Models\MataPelajaran;
 use App\Models\Pengaturan;
+use App\Models\Pengawas;
 use App\Models\Peserta;
 use App\Models\PesertaDidik;
 use App\Models\Ptk;
@@ -389,6 +390,36 @@ class TarikDataController extends Controller
         }
     }
 
+    public function dataPtk(Request $request)
+    {
+        $cbtconf = new CbtMediaConf;
+        $cbtconf->getAuth();
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ptk");
+
+        if ($apiData['success']) {
+            $columns = Schema::getColumnListing('ptk');
+            foreach ($apiData['data'] as $dt) {
+                $cekData = Ptk::withTrashed()->find($dt['id']);
+                $data = array();
+                foreach ($columns as $col) {
+                    if ($col != 'id') {
+                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
+                    }
+                }
+
+                if ($cekData) {
+                    $cekData->update($data);
+                } else {
+                    $data['id'] = $dt['id'];
+                    Ptk::create($data);
+                }
+            }
+
+            TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
+            return response()->json(['status' => TRUE, 'data' => 'ptk', 'message' => 'Data PTK berhasil ditarik.!']);
+        }
+    }
+
     public function dataUjian(Request $request)
     {
         $cbtconf = new CbtMediaConf;
@@ -592,5 +623,70 @@ class TarikDataController extends Controller
             TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
             return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data Peserta berhasil ditarik.!']);
         }
+    }
+
+    public function dataUserPeserta(Request $request)
+    {
+        $getPeserta = Peserta::get();
+        foreach ($getPeserta as $dt) {
+            $data['sekolah_id'] = $dt->sekolah_id;
+            $data['peserta_id'] = $dt->id;
+            $data['name'] = $dt->nama;
+            $data['email'] = $dt->username;
+            $data['username'] = $dt->username;
+            $data['password'] = bcrypt($dt->password);
+            $data['type'] = 'siswa';
+            $data['status'] = $dt->status == 1 ? 'active' : null;
+
+            $cekUser = User::find($dt->id);
+            if (!$cekUser) {
+                $data['id'] = $dt->id;
+                User::create($data);
+            }
+        }
+        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Peserta berhasil dibuat.!']);
+    }
+
+    public function dataUserPengawas(Request $request)
+    {
+        $getPengawas = Pengawas::get();
+        foreach ($getPengawas as $dt) {
+            $data['sekolah_id'] = $dt->sekolah_id;
+            $data['pengawas_id'] = $dt->id;
+            $data['name'] = $dt->nama;
+            $data['email'] = $dt->token;
+            $data['username'] = $dt->token;
+            $data['password'] = bcrypt($dt->token);
+            $data['type'] = 'pengawas';
+            $data['status'] = 'active';
+
+            $cekUser = User::find($dt->id);
+            if (!$cekUser) {
+                $data['id'] = $dt->id;
+                User::create($data);
+            }
+        }
+        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Pengawas berhasil dibuat.!']);
+    }
+
+    public function dataUserProktor(Request $request)
+    {
+        $getRuang = Ruang::get();
+        foreach ($getRuang as $dt) {
+            $data['sekolah_id'] = $dt->sekolah_id;
+            $data['name'] = $dt->nama;
+            $data['email'] = $dt->username;
+            $data['username'] = $dt->username;
+            $data['password'] = bcrypt($dt->password);
+            $data['type'] = 'proktor';
+            $data['status'] = 'active';
+
+            $cekUser = User::find($dt->id);
+            if (!$cekUser) {
+                $data['id'] = $dt->id;
+                User::create($data);
+            }
+        }
+        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Proktor berhasil dibuat.!']);
     }
 }

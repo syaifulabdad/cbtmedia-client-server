@@ -1,45 +1,37 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-layout-style="detached" data-sidebar="dark" data-topbar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light" data-sidebar-visibility="show" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="img-2" data-preloader="disable">
 
 <head>
-    <meta charset="utf-8" />
-    <title>@yield('title') | CBTmedia</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('images/aplikasi-media.png') }}">
+    @include('layouts.title-meta')
     @include('layouts.head-css')
 </head>
 
-@section('body')
-    @include('layouts.body')
-@show
-<!-- Begin page -->
-<div id="layout-wrapper">
-    @include('layouts.topbar')
-    @include('layouts.sidebar')
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content">
-        <div class="page-content">
-            <div class="container-fluid">
-                @yield('content')
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @include('client.layouts.topbar')
+        @include('client.layouts.sidebar')
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <!-- Start content -->
+                <div class="container-fluid">
+                    @yield('content')
+                </div> <!-- content -->
             </div>
-            <!-- container-fluid -->
+            @include('layouts.footer')
         </div>
-        <!-- End Page-content -->
-        @include('layouts.footer')
+        <!-- ============================================================== -->
+        <!-- End Right content here -->
+        <!-- ============================================================== -->
     </div>
-    <!-- end main content-->
-</div>
-<!-- END layout-wrapper -->
+    <!-- END wrapper -->
 
-@include('layouts.customizer')
-
-<!-- JAVASCRIPT -->
-@include('layouts.vendor-scripts')
+    @include('layouts.vendor-scripts')
 </body>
 
 </html>

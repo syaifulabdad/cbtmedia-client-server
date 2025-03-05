@@ -20,13 +20,48 @@ class StatusUjian extends Model
     protected static function booted()
     {
         static::addGlobalScope('status_ujian', function (Builder $builder) {
-            if (session('sekolah_id'))
-                $builder->where('status_ujian.sekolah_id', session('sekolah_id'));
+            // if (session('sekolah_id'))
+            //     $builder->where('status_ujian.sekolah_id', session('sekolah_id'));
         });
     }
 
     function ujian()
     {
         return $this->belongsTo(Ujian::class);
+    }
+
+    function ptk()
+    {
+        return $this->belongsTo(Ptk::class);
+    }
+
+    function mata_pelajaran()
+    {
+        return $this->belongsTo(MataPelajaran::class);
+    }
+
+    function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class);
+    }
+
+    function bank_soal()
+    {
+        return $this->belongsTo(BankSoal::class);
+    }
+
+    function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class);
+    }
+
+    function ruang()
+    {
+        return $this->belongsTo(Ruang::class);
+    }
+
+    function status_peserta_ujian()
+    {
+        return $this->hasMany(StatusPesertaUjian::class);
     }
 }

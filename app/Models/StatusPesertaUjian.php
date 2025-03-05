@@ -20,8 +20,8 @@ class StatusPesertaUjian extends Model
     protected static function booted()
     {
         static::addGlobalScope('status_peserta_ujian', function (Builder $builder) {
-            if (session('sekolah_id'))
-                $builder->where('status_peserta_ujian.sekolah_id', session('sekolah_id'));
+            // if (session('sekolah_id'))
+            //     $builder->where('status_peserta_ujian.sekolah_id', session('sekolah_id'));
         });
     }
 

@@ -20,13 +20,13 @@ class StatusPesertaUjianController extends Controller
 
         // data table
         $this->dataTableOrder = ['status desc'];
-
-        $this->dataTable['dataCheck'] = ['label' => "<input type='checkbox' class='check-all' value='check-all'>", 'className' => 'text-center', 'width' => '10px'];
-        $this->dataTable['status'] = [];
     }
 
     public function index(Request $request)
     {
+        $this->dataTable['dataCheck'] = ['label' => "<input type='checkbox' class='check-all' value='check-all'>", 'className' => 'text-center', 'width' => '10px'];
+        $this->dataTable['status'] = [];
+
         return view('status-peserta-ujian')->with([
             'title' => $this->title,
             'cUrl' => $this->cUrl,
