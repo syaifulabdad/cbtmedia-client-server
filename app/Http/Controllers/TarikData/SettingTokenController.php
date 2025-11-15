@@ -73,14 +73,6 @@ class SettingTokenController extends Controller
         $httpData['ip_address'] = request()->ip();
 
         $apiData = Http::post(env('CBTMEDIA_SERVER_URL') . "/api/login", $httpData);
-        $apiData2 = Http::post(env('CBTMEDIA_SERVER_URL') . "/public/api/login", $httpData);
-
-        if (isset($apiData['success'])) {
-            $apiData = $apiData;
-        } elseif (isset($apiData2['success'])) {
-            $apiData = $apiData2;
-        }
-
         if ($apiData['success']) {
             $cekData = TarikData::where('nama', 'cbt-server')->first();
 
