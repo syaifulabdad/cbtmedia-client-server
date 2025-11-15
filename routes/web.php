@@ -60,48 +60,45 @@ Route::prefix('artisan')->group(function () {
         Artisan::call('migrate:fresh');
         Artisan::call('db:seed --class=RefSeeder');
         Artisan::call('storage:link');
-        Artisan::call('cache:clear');
-        // Artisan::call('optimize');
-        Artisan::call('view:clear');
-
-        return 'Migrate berhasil dijalankan!';
-    });
-    Route::get('migrate', function () {
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed --class=RefSeeder');
-        return 'Migrate berhasil dijalankan!';
-    });
-    Route::get('storage-link', function () {
-        Artisan::call('storage:link');
-        return 'Storage link berhasil dibuat!';
-    });
-    Route::get('event-clear', function () {
-        Artisan::call('event:clear');
-        return 'Event cache berhasil dihapus!';
-    });
-
-    Route::get('route-clear', function () {
         Artisan::call('route:clear');
-        return 'Route berhasil dihapus!';
-    });
-    Route::get('config-cache', function () {
-        Artisan::call('config:cache');
-        return 'Config cache berhasil dibuat!';
-    });
-    Route::get('view-clear', function () {
-        Artisan::call('view:clear');
-        return 'View berhasil dihapus!';
-    });
-    Route::get('cache-clear', function () {
         Artisan::call('cache:clear');
-        return 'Cache berhasil dihapus!';
-    });
-    Route::get('optimize', function () {
-        Artisan::call('optimize');
-        return 'Optimize berhasil dijalankan!';
-    });
-    Route::get('clear-compiled-views', function () {
         Artisan::call('view:clear');
-        return 'Compiled views berhasil dihapus!';
+        Artisan::call('event:clear');
+
+        return 'Migrate berhasil dijalankan!';
     });
+    // Route::get('migrate', function () {
+    //     Artisan::call('migrate:fresh');
+    //     Artisan::call('db:seed --class=RefSeeder');
+    //     return 'Migrate berhasil dijalankan!';
+    // });
+    // Route::get('storage-link', function () {
+    //     Artisan::call('storage:link');
+    //     return 'Storage link berhasil dibuat!';
+    // });
+    // Route::get('event-clear', function () {
+    //     Artisan::call('event:clear');
+    //     return 'Event cache berhasil dihapus!';
+    // });
+
+    // Route::get('route-clear', function () {
+    //     Artisan::call('route:clear');
+    //     return 'Route berhasil dihapus!';
+    // });
+    // Route::get('config-cache', function () {
+    //     Artisan::call('config:cache');
+    //     return 'Config cache berhasil dibuat!';
+    // });
+    // Route::get('view-clear', function () {
+    //     Artisan::call('view:clear');
+    //     return 'View berhasil dihapus!';
+    // });
+    // Route::get('cache-clear', function () {
+    //     Artisan::call('cache:clear');
+    //     return 'Cache berhasil dihapus!';
+    // });
+    // Route::get('optimize', function () {
+    //     Artisan::call('optimize');
+    //     return 'Optimize berhasil dijalankan!';
+    // });
 });
