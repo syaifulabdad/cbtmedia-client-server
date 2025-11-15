@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CbtServer;
+namespace App\Http\Controllers\TarikData;
 
 use App\Http\Controllers\Controller;
 use App\Models\TarikData;
@@ -17,6 +17,7 @@ class SettingTokenController extends Controller
     // public $serverUrl = 'https://cbt.aplikasimedia.com/public';
     public function __construct()
     {
+        parent::__construct();
         $this->model = new Model;
         $this->primaryKey = (new Model)->getKeyName();
         $this->title = 'Pengaturan Token CBT Server';
@@ -71,8 +72,8 @@ class SettingTokenController extends Controller
         $httpData['password'] = $request->password;
         $httpData['ip_address'] = request()->ip();
 
-        $apiData = Http::post(env('CBTMEDIA_URL') . "/api/login", $httpData);
-        $apiData2 = Http::post(env('CBTMEDIA_URL') . "/public/api/login", $httpData);
+        $apiData = Http::post(env('CBTMEDIA_SERVER_URL') . "/api/login", $httpData);
+        $apiData2 = Http::post(env('CBTMEDIA_SERVER_URL') . "/public/api/login", $httpData);
 
         if (isset($apiData['success'])) {
             $apiData = $apiData;
@@ -84,7 +85,7 @@ class SettingTokenController extends Controller
             $cekData = TarikData::where('nama', 'cbt-server')->first();
 
             $data['nama'] = 'cbt-server';
-            // $data['host'] = env('CBTMEDIA_URL');
+            // $data['host'] = env('CBTMEDIA_SERVER_URL');
             $data['token'] = ($apiData['data']['token']);
             if ($cekData) {
                 $cekData->update($data);

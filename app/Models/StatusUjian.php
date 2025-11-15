@@ -35,7 +35,7 @@ class StatusUjian extends Model
         return $this->belongsTo(Ptk::class);
     }
 
-    function mata_pelajaran()
+    function mataPelajaran()
     {
         return $this->belongsTo(MataPelajaran::class);
     }
@@ -45,7 +45,7 @@ class StatusUjian extends Model
         return $this->belongsTo(Jurusan::class);
     }
 
-    function bank_soal()
+    function bankSoal()
     {
         return $this->belongsTo(BankSoal::class);
     }
@@ -60,7 +60,7 @@ class StatusUjian extends Model
         return $this->belongsTo(Ruang::class);
     }
 
-    function status_peserta_ujian()
+    function statusPesertaUjian()
     {
         return $this->hasMany(StatusPesertaUjian::class);
     }

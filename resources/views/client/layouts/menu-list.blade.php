@@ -7,7 +7,7 @@
         </a>
     </li>
 
-    @if ((new App\Models\Sekolah())->count())
+    {{-- @if (new App\Models\Sekolah()->count())
         <li class="menu-title"><span>Data Ujian</span></li>
         <li class="nav-item">
             <a class="nav-link menu-link" href="#sidebarMasterUjian" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMasterUjian">
@@ -21,6 +21,6 @@
                 </ul>
             </div>
         </li>
-    @endif
+    @endif --}}
 
 </ul>

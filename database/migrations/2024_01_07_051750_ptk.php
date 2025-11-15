@@ -4,20 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('ptk', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->uuid('id')->index();
             $table->uuid('dapodik_id')->nullable()->index();
             $table->uuid('sekolah_id')->index();
             $table->string('nama')->index();
             $table->string('nama_ptk')->index()->nullable();
-            $table->string('jenis_kelamin')->nullable();
+            $table->string('jenis_kelamin')->nullable()->index();
             $table->string('nik')->nullable()->index();
             $table->string('nuptk')->nullable()->index();
             $table->string('nip')->nullable()->nullable();
@@ -25,10 +24,11 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable()->index();
             $table->string('agama_id')->nullable()->index();
             $table->text('alamat')->nullable();
-            $table->string('jenis_ptk_id')->nullable();
-            $table->string('jenis_ptk')->nullable();
+            $table->string('jenis_ptk_id')->nullable()->index();
+            $table->string('jenis_ptk')->nullable()->index();
+            $table->string('email')->nullable()->index();
             $table->string('password')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->index();
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();

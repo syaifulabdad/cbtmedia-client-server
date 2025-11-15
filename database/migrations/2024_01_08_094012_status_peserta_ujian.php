@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -28,16 +27,18 @@ return new class extends Migration
             $table->date('tanggal');
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_harus_selesai');
-            $table->dateTime('waktu_selesai');
-            $table->integer('status')->default(1);
-            $table->integer('suspend')->default(0);
+            $table->dateTime('waktu_selesai')->nullable();
+            $table->integer('status')->default(1); // 1: aktif mengerjakan, 0: selesai
+            $table->integer('suspend')->default(0); // 1: suspend, 0: aktif
 
+            $table->longText('soal_json')->nullable();
+            $table->longText('jawaban_json')->nullable();
             $table->integer('jawaban_benar')->default(0);
 
             $table->string('absen_koordinat')->nullable();
             $table->string('absen_koordinat_lat')->nullable();
             $table->string('absen_koordinat_long')->nullable();
-            $table->text('absen_foto')->nullable();
+            $table->longText('absen_foto')->nullable();
 
             $table->ipAddress('ip_address')->nullable();
             $table->string('device')->nullable()->index();

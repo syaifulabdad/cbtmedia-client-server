@@ -11,10 +11,8 @@ use Illuminate\Support\Str;
 
 class StatusPesertaUjian extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, SoftDeletes;
     protected $table = 'status_peserta_ujian';
-    protected $keyType = 'string';
-    public $incrementing = false;
     protected $guarded = [];
 
     protected static function booted()

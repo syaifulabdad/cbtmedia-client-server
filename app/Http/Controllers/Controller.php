@@ -23,4 +23,8 @@ class Controller extends BaseController
     public $tingkatSD = [1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI'];
     public $tingkatSMP = [7 => 'VII', 8 => 'VIII', 9 => 'IX'];
     public $tingkatSMA = [10 => "X", 11 => "XI", 12 => "XII"];
+
+    public function __construct()
+    {
+    }
 }

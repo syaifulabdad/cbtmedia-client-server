@@ -14,6 +14,7 @@ class ApiTokenController extends Controller
 {
     public function __construct()
     {
+        // parent::__construct();
         $this->model = new Model;
         $this->primaryKey = (new Model)->getKeyName();
         $this->title = 'API Token';

@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RefSeeder extends Seeder
+class WilayahSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -14,7 +14,7 @@ class RefSeeder extends Seeder
     public function run(): void
     {
         DB::unprepared(
-            file_get_contents(database_path('seeders/sql/referensi.sql'))
+            file_get_contents(database_path('seeders/sql/wilayah.sql'))
         );
     }
 }

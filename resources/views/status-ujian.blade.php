@@ -43,7 +43,7 @@
                         <div class="col-auto">
                             <select id="jadwal_id" class="form-control form-select" onchange="getSelectBankSoal()">
                                 @foreach ($getJadwal as $jadwal)
-                                    <option value="{{ $jadwal->id }}" {{ $jadwal->tanggal == date('Y-m-d') ? 'selected' : null }}>{{ "Hari Ke $jadwal->hari_ke. " . date('D, d/m/Y', strtotime($jadwal->tanggal)) }}</option>
+                                    <option value="{{ $jadwal->id }}" data-hari_ke="{{ $jadwal->hari_ke }}" data-tanggal="{{ $jadwal->tanggal }}" {{ $jadwal->tanggal == date('Y-m-d') ? 'selected' : null }}>{{ "Hari Ke $jadwal->hari_ke. " . date('D, d/m/Y', strtotime($jadwal->tanggal)) }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,21 +57,27 @@
                     </div>
                     <hr>
 
-                    <div class="card-header border-0 d-flex align-items-center pt-0 pb-0">
-                        <div class="col-auto me-2">
-                            <select id="ruang_id" class="form-control form-select" onchange="reload()">
-                                <option value="">Semua Ruang</option>
-                                @foreach ($getRuang as $ruang)
-                                    <option value="{{ $ruang->id }}">{{ $ruang->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm">
-                        </div>
-                        <div class="col-sm-auto">
-                            <div class="d-flex gap-1 flex-wrap">
-                                <button type="button" class="btn btn-info" onclick="reload()"><i class="ri-refresh-line ri-lg"></i></button>
+                    <div class="card-header border-0 d-flex justify-content-between pt-0 pb-0">
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <div class="col-auto">
+                                    <select id="statusUjian" class="form-select" onchange="reload()">
+                                        <option value="1">Status Aktif</option>
+                                        <option value="0">Status Selesai</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto ms-2">
+                                    <select id="ruang_id" class="form-select" onchange="reload()">
+                                        <option value="">Semua Ruang</option>
+                                        @foreach ($getRuang as $ruang)
+                                            <option value="{{ $ruang->id }}">{{ $ruang->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-info" onclick="reload()"><i class="ri-refresh-line ri-lg"></i></button>
                         </div>
                     </div>
 
@@ -170,7 +176,7 @@
                             <label for="" class="col-sm-4 col-form-label ">Mode Waktu</label>
                             <div class="col-md-6">
                                 <select name="mode_waktu" class="form-control form-select">
-                                    <option value="waktu-admin">Waktu Admin/Server</option>
+                                    <option value="waktu-soal">Waktu Soal/Server</option>
                                     <option value="waktu-peserta">Waktu Peserta</option>
                                 </select>
                                 <span class="invalid-feedback"></span>
@@ -215,6 +221,16 @@
                                 <span class="invalid-feedback"></span>
                             </div>
                             <label class="col-sm-4 col-form-label">Menit</label>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="" class="col-sm-4 col-form-label ">Status</label>
+                            <div class="col-md-4">
+                                <select name="status" class="form-control form-select">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Selesai</option>
+                                </select>
+                                <span class="invalid-feedback"></span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -284,6 +300,7 @@
                         dt._token = "{{ csrf_token() }}";
                         dt.jadwal_id = $('#jadwal_id').val();
                         dt.ruang_id = $('#ruang_id').val();
+                        dt.status = $('#statusUjian').val();
 
                         @isset($dataTableFilter)
                             @foreach ($dataTableFilter as $key => $value)
@@ -413,12 +430,12 @@
     </script>
 
     <script>
-        $('#jadwal_id').change(function() {});
-
         function getSelectBankSoal() {
             $('#bank_soal_id').html('<option selected disabled>Memuat data...</option>');
             $.get('{{ url('status-ujian/select-bank-soal') }}', {
                 'jadwal_id': $('#jadwal_id').val(),
+                'hari_ke': $('#jadwal_id').find('option:selected').data('hari_ke'),
+                'tanggal': $('#jadwal_id').find('option:selected').data('tanggal'),
             }, function(response) {
                 $('#bank_soal_id').html(response);
             });
@@ -445,6 +462,8 @@
             $.get("{{ $cUrl }}/bank-soal", {
                 'bank_soal_id': $('#bank_soal_id').val(),
                 'jadwal_id': $('#jadwal_id').val(),
+                'hari_ke': $('#jadwal_id').find('option:selected').data('hari_ke'),
+                'tanggal': $('#jadwal_id').find('option:selected').data('tanggal'),
             }, function(response) {
                 if (response.status) {
                     $('[name="jadwal_id"]').val(response.jadwal.id);
@@ -502,6 +521,7 @@
                 $('[name="waktu_mulai"]').val(response.jam);
                 $('[name="batas_masuk"]').val(response.batas_masuk);
                 $('[name="waktu_minimal"]').val(response.waktu_minimal);
+                $('[name="status"]').val(response.status);
 
                 $('.modal-title').html('Edit Status Soal');
                 $('#modal-data').modal('show');
@@ -562,6 +582,72 @@
                 text: value,
                 icon: "info",
             });
+        }
+    </script>
+
+    <script>
+        function startCountdownSoal(waktuMulai, alokasiWaktuMenit, waktuServerSekarang, tombolId) {
+            const tombol = $(`.btnStatus_${tombolId}`);
+            if (!tombol.length) return;
+
+            // waktu server → real time sync
+            const localStart = Date.now();
+            const serverNow = new Date(waktuServerSekarang.replace(' ', 'T'));
+            const serverOffset = localStart - serverNow.getTime();
+
+            const startTime = new Date(waktuMulai.replace(' ', 'T')).getTime();
+            const endTime = startTime + (alokasiWaktuMenit * 60000);
+
+            const interval = setInterval(() => {
+                const now = Date.now() - serverOffset; // waktu server realtime
+
+                // --- BELUM MULAI ---
+                if (now < startTime) {
+                    const diff = startTime - now;
+
+                    const m = Math.floor(diff / 1000 / 60);
+                    const s = Math.floor((diff / 1000) % 60);
+
+                    tombol.text(`MENUNGGU ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`)
+                        .removeClass('btn-info btn-warning btn-secondary')
+                        .addClass('btn-dark');
+
+                    return; // jangan mulai countdown sebelum waktunya
+                }
+
+                // --- SUDAH MULAI ---
+                const remaining = endTime - now;
+
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    waktuHabisSoal(tombol);
+                    return;
+                }
+
+                const hours = Math.floor((remaining / 1000 / 60 / 60) % 24);
+                const minutes = Math.floor((remaining / 1000 / 60) % 60);
+                const seconds = Math.floor((remaining / 1000) % 60);
+
+                tombol.text(
+                    `${String(hours).padStart(2, '0')}:` +
+                    `${String(minutes).padStart(2, '0')}:` +
+                    `${String(seconds).padStart(2, '0')}`
+                );
+
+                // warna indikator waktu hampir habis
+                if (remaining <= 5 * 60 * 1000) {
+                    tombol.removeClass('btn-info').addClass('btn-warning');
+                } else {
+                    tombol.removeClass('btn-warning btn-dark').addClass('btn-info');
+                }
+
+            }, 1000);
+        }
+
+        function waktuHabisSoal(tombol) {
+            tombol.text('SELESAI')
+                .removeClass('btn-info btn-warning btn-dark')
+                .addClass('btn-secondary');
         }
     </script>
 @endsection

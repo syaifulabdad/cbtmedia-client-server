@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CbtServer;
+namespace App\Http\Controllers\TarikData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,6 +17,7 @@ class CbtMediaConf extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->cUrl = url()->current();
     }
 
@@ -24,7 +25,7 @@ class CbtMediaConf extends Controller
     {
         $id = session('sekolah_id') ?? $id;
         $getToken = TarikData::where('nama', 'cbt-server')->first();
-        $cbtUrl = $getToken->host ?? env('CBTMEDIA_URL');
+        $cbtUrl = $getToken->host ?? env('CBTMEDIA_SERVER_URL');
 
         $this->serverUrl = (strpos($cbtUrl, 'http') === false ? 'http://' : null) . "$cbtUrl";
         $this->serverToken = ($getToken->token);
@@ -33,14 +34,14 @@ class CbtMediaConf extends Controller
     public function cekKoneksi()
     {
         $this->getAuth();
-        $response = Http::withToken("$this->serverToken", "$this->serverAuthType")->get("$this->serverUrl/api/tarik-data/sekolah");
+        $response = Http::withToken("$this->serverToken", "$this->serverAuthType")->get("$this->serverUrl/api/get-data/sekolah");
         return $response;
     }
 
     public function getSekolah()
     {
         $this->getAuth();
-        $response = Http::withToken("$this->serverToken", "$this->serverAuthType")->get("$this->serverUrl/api/tarik-data/sekolah");
+        $response = Http::withToken("$this->serverToken", "$this->serverAuthType")->get("$this->serverUrl/api/get-data/sekolah");
         return $response;
     }
 }

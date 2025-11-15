@@ -11,6 +11,7 @@ class UserProfileController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = new Model;
         $this->primaryKey = $this->model->primaryKey;
         $this->title = 'Profile';
@@ -96,7 +97,7 @@ class UserProfileController extends Controller
                 if (!file_exists($location))
                     mkdir($location, 0777, true);
 
-                if (session('user_image') && file_exists($location . "/" .  session('user_image')))
+                if (session('user_image') && file_exists($location . "/" . session('user_image')))
                     unlink($location . "/" . session('user_image'));
 
                 // Upload file

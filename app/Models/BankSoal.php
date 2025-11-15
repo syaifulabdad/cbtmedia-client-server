@@ -36,7 +36,7 @@ class BankSoal extends Model
         return $this->belongsTo(Ujian::class);
     }
 
-    function mata_pelajaran()
+    function mataPelajaran()
     {
         return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id', 'id');
     }
@@ -56,7 +56,7 @@ class BankSoal extends Model
         return $this->belongsTo(Jadwal::class, 'id', 'bank_soal_id');
     }
 
-    function status_ujian()
+    function statusUjian()
     {
         return $this->hasMany(StatusUjian::class)->where('status', 1);
     }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,18 +20,18 @@ return new class extends Migration
             $table->integer('urutan')->default(1);
             $table->string('jenis_soal')->default('pilihan');
             $table->string('kd', 10)->nullable();
-            $table->text('soal_teks')->nullable();
-            $table->text('soal_gambar')->nullable();
+            $table->longText('soal_teks')->nullable();
+            $table->longText('soal_gambar')->nullable();
             $table->string('posisi_gambar', 10)->nullable()->enum(['atas', 'bawah']);
-            $table->text('soal_audio')->nullable();
+            $table->longText('soal_audio')->nullable();
             $table->string('posisi_audio', 10)->nullable()->enum(['atas', 'bawah']);
-            $table->text('soal_video')->nullable();
+            $table->longText('soal_video')->nullable();
             $table->string('posisi_video', 10)->nullable()->enum(['atas', 'bawah']);
-            $table->text('jawaban_1')->nullable();
-            $table->text('jawaban_2')->nullable();
-            $table->text('jawaban_3')->nullable();
-            $table->text('jawaban_4')->nullable();
-            $table->text('jawaban_5')->nullable();
+            $table->longText('jawaban_1')->nullable();
+            $table->longText('jawaban_2')->nullable();
+            $table->longText('jawaban_3')->nullable();
+            $table->longText('jawaban_4')->nullable();
+            $table->longText('jawaban_5')->nullable();
             $table->string('kunci_jawaban')->nullable();
             $table->integer('acak_soal')->default(1);
             $table->integer('acak_jawaban')->default(1);

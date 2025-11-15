@@ -6,8 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -49,7 +48,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        User::create(['name' => 'Administrator', 'email' => 'admin@cbtmedia.com', 'password' => Hash::make('admin@cbtmedia'), 'type' => 'admin', 'status' => 'active', 'email_verified_at' => '2022-01-02 17:04:58', 'created_at' => now(),]);
+        User::create(['name' => 'Administrator', 'email' => 'admin', 'password' => Hash::make('admin@cbtmedia'), 'type' => 'admin', 'status' => 'active', 'email_verified_at' => '2022-01-02 17:04:58', 'created_at' => now(),]);
     }
 
     /**

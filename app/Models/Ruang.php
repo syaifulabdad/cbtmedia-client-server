@@ -19,7 +19,7 @@ class Ruang extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('bank_soal', function (Builder $builder) {
+        static::addGlobalScope('ruang', function (Builder $builder) {
             // $builder->where('ruang_ujian.sekolah_id', session('sekolah_id'));
         });
     }
@@ -47,7 +47,7 @@ class Ruang extends Model
             $val = $ref->nama;
 
             if (request()->ajax()) {
-                $data[$id] =  $val;
+                $data[$id] = $val;
             } else {
                 $data .= '<option value="' . $id . '">' . $val . '</option>';
             }

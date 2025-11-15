@@ -15,15 +15,20 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
-        if (session('user_id')) {
-            if (session('type') == 'siswa') {
-                return redirect()->intended('/home');
-            } else {
-                return redirect()->intended('/dashboard');
-            }
-        }
+        // if (session('user_id')) {
+        //     if (session('type') == 'siswa') {
+        //         return redirect()->intended('/home');
+        //     } else {
+        //         return redirect()->intended('/dashboard');
+        //     }
+        // }
 
         $data['sekolah'] = Sekolah::first();
         return view('auth.login')->with($data);

@@ -18,6 +18,7 @@ class UserController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->model = new Model;
         $this->primaryKey = (new Model)->getKeyName();
         $this->title = 'Daftar User';
@@ -48,7 +49,7 @@ class UserController extends Controller
         // $this->dataTable['google_id'] = ['label' => "Google Auth", 'width' => "100px", 'className' => "text-center"];
         $this->dataTable['type'] = ['orderable' => true, 'width' => "100px", 'className' => ""];
         $this->dataTable['status'] = ['orderable' => true, 'width' => "100px", 'className' => ""];
-        $this->dataTable['last_login'] = ['orderable' => true,  'className' => "nowrap", 'width' => "150px"];
+        $this->dataTable['last_login'] = ['orderable' => true, 'className' => "nowrap", 'width' => "150px"];
 
         return view('user')->with([
             'title' => $this->title,
@@ -207,7 +208,7 @@ class UserController extends Controller
             foreach ($getPeserta as $peserta) {
                 $username = $peserta->username;
                 if ($peserta->username && $peserta->password) {
-                    $data['name'] =  strtoupper($peserta->nama);
+                    $data['name'] = strtoupper($peserta->nama);
                     $data['email'] = $username;
                     $data['username'] = $username;
                     $data['status'] = $peserta->status == 1 ? 'active' : null;

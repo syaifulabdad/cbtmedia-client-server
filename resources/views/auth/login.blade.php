@@ -27,12 +27,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="text-center mt-sm-5 mb-4 text-white-50">
+                        <div class="text-center mt-sm-5 mb-4 text-white">
                             <div>
-                                <a href="index" class="d-inline-block auth-logo">
+                                <a href="#" class="d-inline-block auth-logo">
                                     <img src="{{ URL::asset('images/logo-cbt-media.png') }}" alt="" height="60">
                                 </a>
                             </div>
+                            <p class="mt-4 fs-20 fw-medium">SISTEM UJIAN ONLINE</p>
                             <p class="mt-3 fs-20 fw-medium">{{ $sekolah ? $sekolah->nama : null }}</p>
                         </div>
                     </div>
@@ -99,9 +100,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center">
+                            &copy;
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> CBTmedia <i class="mdi mdi-heart text-danger"></i> by Aplikasimedia</p>
+                            </script>
+                            - {{ $sekolah ? $sekolah->nama : 'CBTmedia by Aplikasimedia' }}
                         </div>
                     </div>
                 </div>

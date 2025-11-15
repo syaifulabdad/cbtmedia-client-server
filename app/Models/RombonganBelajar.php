@@ -48,7 +48,7 @@ class RombonganBelajar extends Model
         return $this->belongsTo(Ptk::class, 'ptk_id', 'dapodik_id');
     }
 
-    function mata_pelajaran()
+    function mataPelajaran()
     {
         return $this->belongsTo(MataPelajaran::class);
     }
@@ -72,7 +72,7 @@ class RombonganBelajar extends Model
             $val = $ref->nama;
 
             if (request()->ajax()) {
-                $data[$id] =  $val;
+                $data[$id] = $val;
             } else {
                 $data .= '<option value="' . $id . '">' . $val . '</option>';
             }

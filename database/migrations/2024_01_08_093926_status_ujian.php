@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -54,7 +53,8 @@ return new class extends Migration
             $table->dateTime('waktu_selesai_soal');
             $table->dateTime('waktu_selesai_peserta')->nullable();
             $table->string('token', 36)->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->index(); // 1: aktif, 0: selesai
+            $table->integer('suspend')->default(0)->index(); // 1: suspend, 0: aktif
 
             $table->string('proktor')->nullable();
             $table->string('nip_proktor', 20)->nullable();

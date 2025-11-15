@@ -30,7 +30,7 @@ class Soal extends Model
         return $this->belongsTo(Ujian::class);
     }
 
-    function bank_soal()
+    function bankSoal()
     {
         return $this->belongsTo(BankSoal::class);
     }

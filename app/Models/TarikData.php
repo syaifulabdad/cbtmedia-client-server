@@ -12,8 +12,6 @@ class TarikData extends Model
 {
     use HasFactory, HasUuids;
     protected $table = 'tarik_data';
-    protected $keyType = 'string';
-    public $incrementing = false;
     protected $guarded = [];
 
     protected static function booted()

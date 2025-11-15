@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -26,7 +25,7 @@ return new class extends Migration
             $table->uuid('ruang_id')->nullable()->index();
             $table->uuid('pengawas_id')->nullable()->index();
             $table->string('status')->default("H")->index();
-            $table->dateTime('kirim_data')->nullable();
+            $table->dateTime('waktu_kirim_data')->nullable();
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();

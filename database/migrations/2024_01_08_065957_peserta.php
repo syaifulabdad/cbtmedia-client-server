@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -29,7 +28,7 @@ return new class extends Migration
 
             $table->string('nama')->nullable()->index();
             $table->string('nama_peserta')->nullable()->index();
-            $table->string('jenis_kelamin')->nullable();
+            $table->string('jenis_kelamin')->nullable()->index();
             $table->string('nik')->nullable()->index();
             $table->string('nis')->nullable()->index();
             $table->string('nisn')->nullable()->index();
@@ -39,7 +38,7 @@ return new class extends Migration
             $table->string('agama')->nullable()->index();
             $table->text('alamat')->nullable();
             $table->text('foto')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->index();
 
             $table->string('username')->nullable();
             $table->string('password')->nullable();

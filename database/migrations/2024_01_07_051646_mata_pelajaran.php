@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,11 +16,11 @@ return new class extends Migration
             $table->uuid('sekolah_id')->nullable()->index();
             $table->string('nama')->index();
             $table->string('nama_mapel')->index()->nullable();
-            $table->string('kode')->nullable();
-            $table->string('kelompok')->nullable();
-            $table->integer('mapel_agama')->default(0);
+            $table->string('kode')->nullable()->index();
+            $table->string('kelompok')->nullable()->index();
+            $table->integer('mapel_agama')->default(0)->index();
             $table->integer('urutan')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->index();
 
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();

@@ -24,7 +24,7 @@ class Jadwal extends Model
         });
     }
 
-    function bank_soal()
+    function bankSoal()
     {
         return $this->hasMany(BankSoal::class, 'id', 'bank_soal_id');
     }
@@ -47,7 +47,7 @@ class Jadwal extends Model
             $val = $ref->nama . " Hari Ke-$ref->hari_ke Tgl. $ref->tanggal";
 
             if (request()->ajax()) {
-                $data[$id] =  $val;
+                $data[$id] = $val;
             } else {
                 $data .= '<option value="' . $id . '" data-tanggal="' . $ref->tanggal . '" data-hari_ke="' . $ref->hari_ke . '" data-bank_soal_id="' . $ref->bank_soal_id . '">' . $val . '</option>';
             }

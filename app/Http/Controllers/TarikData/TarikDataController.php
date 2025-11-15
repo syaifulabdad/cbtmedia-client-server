@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CbtServer;
+namespace App\Http\Controllers\TarikData;
 
 use App\Http\Controllers\Controller;
 use App\Models\AnggotaRombel;
@@ -37,6 +37,7 @@ class TarikDataController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->title = 'Tarik Data';
         $this->cUrl = url()->current();
     }
@@ -56,7 +57,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $dataPusat = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/jumlah-data");
+        $dataPusat = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/jumlah-data");
 
         $tarikData = TarikData::where('nama', 'cbt-server')->first();
         return response()->json([
@@ -90,7 +91,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ref-agama");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ref-agama");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('ref_agama');
@@ -120,7 +121,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ref-agama");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ref-agama");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('ref_agama');
@@ -150,7 +151,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/pengaturan");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/pengaturan");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('pengaturan');
@@ -181,7 +182,7 @@ class TarikDataController extends Controller
         $cbtconf = new CbtMediaConf;
         // $getData = $cbtconf->getSekolah();
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/sekolah");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/sekolah");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('sekolah');
@@ -210,7 +211,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/user");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/user");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('users');
@@ -231,39 +232,39 @@ class TarikDataController extends Controller
                 }
             }
 
-            foreach ($apiData['data']['pengawas'] as $dt) {
-                $cekData = User::withTrashed()->find($dt['id']);
-                $data = array();
-                foreach ($columns as $col) {
-                    if ($col != 'id') {
-                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
-                    }
-                }
+            // foreach ($apiData['data']['pengawas'] as $dt) {
+            //     $cekData = User::withTrashed()->find($dt['id']);
+            //     $data = array();
+            //     foreach ($columns as $col) {
+            //         if ($col != 'id') {
+            //             $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
+            //         }
+            //     }
 
-                if ($cekData) {
-                    $cekData->update($data);
-                } else {
-                    $data['id'] = $dt['id'];
-                    User::create($data);
-                }
-            }
+            //     if ($cekData) {
+            //         $cekData->update($data);
+            //     } else {
+            //         $data['id'] = $dt['id'];
+            //         User::create($data);
+            //     }
+            // }
 
-            foreach ($apiData['data']['siswa'] as $dt) {
-                $cekData = User::withTrashed()->find($dt['id']);
-                $data = array();
-                foreach ($columns as $col) {
-                    if ($col != 'id') {
-                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
-                    }
-                }
+            // foreach ($apiData['data']['siswa'] as $dt) {
+            //     $cekData = User::withTrashed()->find($dt['id']);
+            //     $data = array();
+            //     foreach ($columns as $col) {
+            //         if ($col != 'id') {
+            //             $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
+            //         }
+            //     }
 
-                if ($cekData) {
-                    $cekData->update($data);
-                } else {
-                    $data['id'] = $dt['id'];
-                    User::create($data);
-                }
-            }
+            //     if ($cekData) {
+            //         $cekData->update($data);
+            //     } else {
+            //         $data['id'] = $dt['id'];
+            //         User::create($data);
+            //     }
+            // }
 
             TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
             return response()->json(['status' => TRUE, 'data' => 'user', 'message' => 'Data User berhasil ditarik.!']);
@@ -274,7 +275,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/mata-pelajaran");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/mata-pelajaran");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('mata_pelajaran');
@@ -304,7 +305,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/semester");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/semester");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('semester');
@@ -334,7 +335,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/jurusan");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/jurusan");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('jurusan');
@@ -364,7 +365,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/rombongan-belajar");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/rombongan-belajar");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('rombongan_belajar');
@@ -394,7 +395,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ptk");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ptk");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('ptk');
@@ -424,7 +425,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ujian");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ujian");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('ujian');
@@ -454,7 +455,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/soal");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/soal");
 
         if ($apiData['success']) {
             $columnBankSoal = Schema::getColumnListing('bank_soal');
@@ -503,7 +504,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/jadwal");
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/jadwal");
 
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('jadwal');
@@ -533,7 +534,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/server", [
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/server", [
             'server_id' => $request->server_id
         ]);
 
@@ -565,7 +566,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/ruang", [
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ruang", [
             'server_id' => $request->server_id
         ]);
 
@@ -588,6 +589,23 @@ class TarikDataController extends Controller
                 }
             }
 
+            $getRuang = Ruang::get();
+            foreach ($getRuang as $dt) {
+                $data['sekolah_id'] = $dt->sekolah_id;
+                $data['name'] = $dt->nama;
+                $data['email'] = $dt->username;
+                $data['username'] = $dt->username;
+                $data['password'] = bcrypt($dt->password);
+                $data['type'] = 'proktor';
+                $data['status'] = 'active';
+
+                $cekUser = User::find($dt->id);
+                if (!$cekUser) {
+                    $data['id'] = $dt->id;
+                    User::create($data);
+                }
+            }
+
             TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
             return response()->json(['status' => TRUE, 'data' => 'ruang', 'message' => 'Data Ruang berhasil ditarik.!']);
         }
@@ -597,7 +615,7 @@ class TarikDataController extends Controller
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/tarik-data/peserta", [
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/peserta", [
             'server_id' => $request->server_id
         ]);
 
@@ -620,73 +638,136 @@ class TarikDataController extends Controller
                 }
             }
 
+            $getPeserta = Peserta::get();
+            foreach ($getPeserta as $dt) {
+                $data['sekolah_id'] = $dt->sekolah_id;
+                $data['peserta_id'] = $dt->id;
+                $data['name'] = $dt->nama;
+                $data['email'] = $dt->username;
+                $data['username'] = $dt->username;
+                $data['password'] = bcrypt($dt->password);
+                $data['type'] = 'siswa';
+                $data['status'] = $dt->status == 1 ? 'active' : null;
+
+                $cekUser = User::find($dt->id);
+                if (!$cekUser) {
+                    $data['id'] = $dt->id;
+                    User::create($data);
+                }
+            }
+
             TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
             return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data Peserta berhasil ditarik.!']);
         }
     }
 
-    public function dataUserPeserta(Request $request)
+    public function dataPengawas(Request $request)
     {
-        $getPeserta = Peserta::get();
-        foreach ($getPeserta as $dt) {
-            $data['sekolah_id'] = $dt->sekolah_id;
-            $data['peserta_id'] = $dt->id;
-            $data['name'] = $dt->nama;
-            $data['email'] = $dt->username;
-            $data['username'] = $dt->username;
-            $data['password'] = bcrypt($dt->password);
-            $data['type'] = 'siswa';
-            $data['status'] = $dt->status == 1 ? 'active' : null;
+        $cbtconf = new CbtMediaConf;
+        $cbtconf->getAuth();
+        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/pengawas", [
+            'server_id' => $request->server_id
+        ]);
 
-            $cekUser = User::find($dt->id);
-            if (!$cekUser) {
-                $data['id'] = $dt->id;
-                User::create($data);
+        if ($apiData['success']) {
+            $columns = Schema::getColumnListing('pengawas');
+            foreach ($apiData['data'] as $dt) {
+                $cekData = Peserta::withTrashed()->find($dt['id']);
+                $data = array();
+                foreach ($columns as $col) {
+                    if ($col != 'id') {
+                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
+                    }
+                }
+
+                if ($cekData) {
+                    $cekData->update($data);
+                } else {
+                    $data['id'] = $dt['id'];
+                    Peserta::create($data);
+                }
             }
+
+            foreach (Pengawas::get() as $pengawas) {
+                User::create([
+                    'sekolah_id' => $pengawas->sekolah_id,
+                    'pengawas_id' => $pengawas->id,
+                    'name' => $pengawas->token,
+                    'username' => $pengawas->token,
+                    'password' => $pengawas->token,
+                    'type' => "pengawas",
+                    'status' => 'active',
+                    'created_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+
+            TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
+            return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data Pengawas berhasil ditarik.!']);
         }
-        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Peserta berhasil dibuat.!']);
     }
 
-    public function dataUserPengawas(Request $request)
-    {
-        $getPengawas = Pengawas::get();
-        foreach ($getPengawas as $dt) {
-            $data['sekolah_id'] = $dt->sekolah_id;
-            $data['pengawas_id'] = $dt->id;
-            $data['name'] = $dt->nama;
-            $data['email'] = $dt->token;
-            $data['username'] = $dt->token;
-            $data['password'] = bcrypt($dt->token);
-            $data['type'] = 'pengawas';
-            $data['status'] = 'active';
+    // public function dataUserPeserta(Request $request)
+    // {
+    //     $getPeserta = Peserta::get();
+    //     foreach ($getPeserta as $dt) {
+    //         $data['sekolah_id'] = $dt->sekolah_id;
+    //         $data['peserta_id'] = $dt->id;
+    //         $data['name'] = $dt->nama;
+    //         $data['email'] = $dt->username;
+    //         $data['username'] = $dt->username;
+    //         $data['password'] = bcrypt($dt->password);
+    //         $data['type'] = 'siswa';
+    //         $data['status'] = $dt->status == 1 ? 'active' : null;
 
-            $cekUser = User::find($dt->id);
-            if (!$cekUser) {
-                $data['id'] = $dt->id;
-                User::create($data);
-            }
-        }
-        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Pengawas berhasil dibuat.!']);
-    }
+    //         $cekUser = User::find($dt->id);
+    //         if (!$cekUser) {
+    //             $data['id'] = $dt->id;
+    //             User::create($data);
+    //         }
+    //     }
+    //     return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Peserta berhasil dibuat.!']);
+    // }
 
-    public function dataUserProktor(Request $request)
-    {
-        $getRuang = Ruang::get();
-        foreach ($getRuang as $dt) {
-            $data['sekolah_id'] = $dt->sekolah_id;
-            $data['name'] = $dt->nama;
-            $data['email'] = $dt->username;
-            $data['username'] = $dt->username;
-            $data['password'] = bcrypt($dt->password);
-            $data['type'] = 'proktor';
-            $data['status'] = 'active';
+    // public function dataUserPengawas(Request $request)
+    // {
+    //     $getPengawas = Pengawas::get();
+    //     foreach ($getPengawas as $dt) {
+    //         $data['sekolah_id'] = $dt->sekolah_id;
+    //         $data['pengawas_id'] = $dt->id;
+    //         $data['name'] = $dt->nama;
+    //         $data['email'] = $dt->token;
+    //         $data['username'] = $dt->token;
+    //         $data['password'] = bcrypt($dt->token);
+    //         $data['type'] = 'pengawas';
+    //         $data['status'] = 'active';
 
-            $cekUser = User::find($dt->id);
-            if (!$cekUser) {
-                $data['id'] = $dt->id;
-                User::create($data);
-            }
-        }
-        return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Proktor berhasil dibuat.!']);
-    }
+    //         $cekUser = User::find($dt->id);
+    //         if (!$cekUser) {
+    //             $data['id'] = $dt->id;
+    //             User::create($data);
+    //         }
+    //     }
+    //     return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Pengawas berhasil dibuat.!']);
+    // }
+
+    // public function dataUserProktor(Request $request)
+    // {
+    //     $getRuang = Ruang::get();
+    //     foreach ($getRuang as $dt) {
+    //         $data['sekolah_id'] = $dt->sekolah_id;
+    //         $data['name'] = $dt->nama;
+    //         $data['email'] = $dt->username;
+    //         $data['username'] = $dt->username;
+    //         $data['password'] = bcrypt($dt->password);
+    //         $data['type'] = 'proktor';
+    //         $data['status'] = 'active';
+
+    //         $cekUser = User::find($dt->id);
+    //         if (!$cekUser) {
+    //             $data['id'] = $dt->id;
+    //             User::create($data);
+    //         }
+    //     }
+    //     return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data User Proktor berhasil dibuat.!']);
+    // }
 }

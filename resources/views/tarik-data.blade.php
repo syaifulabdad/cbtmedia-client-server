@@ -77,13 +77,13 @@
                                     </tr>
                                     <tr>
                                         <th>Data PTK</th>
-                                        <td class="text-center pusat-mapel"></td>
-                                        <td class="text-center local-mapel"></td>
-                                        <td class="text-center status-mapel"></td>
+                                        <td class="text-center pusat-ptk"></td>
+                                        <td class="text-center local-ptk"></td>
+                                        <td class="text-center status-ptk"></td>
                                         <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-ptk', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
-                                        <th>Data Rombongan Belajar / Kelas</th>
+                                        <th>Data Kelas</th>
                                         <td class="text-center pusat-rombel"></td>
                                         <td class="text-center local-rombel"></td>
                                         <td class="text-center status-rombel"></td>
@@ -130,6 +130,13 @@
                                         <td class="text-center local-peserta"></td>
                                         <td class="text-center status-peserta"></td>
                                         <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-peserta', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Data Pengawas</th>
+                                        <td class="text-center pusat-peserta"></td>
+                                        <td class="text-center local-peserta"></td>
+                                        <td class="text-center status-peserta"></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-pengawas', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data User</th>
@@ -219,12 +226,12 @@
     <script>
         function getJumlahData() {
             $.getJSON('{{ url('tarik-data') }}/jumlah-data', function(response) {
-                @foreach (['sekolah', 'semester', 'jurusan', 'rombel', 'mapel', 'ujian', 'bank_soal', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'user', 'pengaturan', 'referensi'] as $data)
+                @foreach (['sekolah', 'semester', 'jurusan', 'rombel', 'mapel', 'ujian', 'bank_soal', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'ptk', 'user', 'pengaturan', 'referensi'] as $data)
                     $('.tarik_data_terakhir').text(response.tarik_data_terakhir);
 
                     $('.pusat-{{ $data }}').text(response.pusat.{{ $data }});
                     $('.local-{{ $data }}').text(response.local.{{ $data }});
-                    if (response.pusat.{{ $data }} == response.local.{{ $data }}) {
+                    if (response.local.{{ $data }} >= response.pusat.{{ $data }}) {
                         $('.status-{{ $data }}').html('OK');
                     } else {
                         $('.status-{{ $data }}').html('---');
@@ -356,7 +363,7 @@
                     } else {
 
                         @php
-                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'user', 'referensi'];
+                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
                         @endphp
 
                         @foreach ($dataArr as $key => $data)
