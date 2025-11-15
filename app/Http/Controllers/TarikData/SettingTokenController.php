@@ -66,7 +66,7 @@ class SettingTokenController extends Controller
         return response()->json(['status' => TRUE]);
     }
 
-    public function Token(Request $request)
+    public function getGetToken(Request $request)
     {
         $httpData['email'] = $request->email;
         $httpData['password'] = $request->password;
