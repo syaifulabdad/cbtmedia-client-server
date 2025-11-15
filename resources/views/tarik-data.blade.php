@@ -259,7 +259,7 @@
                 data: formData,
                 // url: "{{ url('setting-api') }}/store",
                 url: "{{ url('setting-api') }}/token",
-                type: "POST",
+                type: "GET",
                 dataType: 'json',
                 success: function(data) {
                     if (data.status) {
