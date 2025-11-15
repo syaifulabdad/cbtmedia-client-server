@@ -258,7 +258,7 @@
             $.ajax({
                 data: formData,
                 // url: "{{ url('setting-api') }}/store",
-                url: "{{ url('setting-api') }}/get-token",
+                url: "{{ url('getTokenServer') }}",
                 type: "GET",
                 dataType: 'json',
                 success: function(data) {
