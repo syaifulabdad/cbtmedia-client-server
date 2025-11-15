@@ -66,13 +66,14 @@ class SettingTokenController extends Controller
         return response()->json(['status' => TRUE]);
     }
 
-    public function postToken(Request $request)
+    public function Token(Request $request)
     {
         $httpData['email'] = $request->email;
         $httpData['password'] = $request->password;
         $httpData['ip_address'] = request()->ip();
 
         $apiData = Http::post(env('CBTMEDIA_SERVER_URL') . "/api/login", $httpData);
+        return $apiData;
         if ($apiData['success']) {
             $cekData = TarikData::where('nama', 'cbt-server')->first();
 
