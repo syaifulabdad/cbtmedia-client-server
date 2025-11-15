@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::auto('profile', UserProfileController::class);
         Route::auto('api-token', ApiTokenController::class);
         Route::auto('setting-api', SettingTokenController::class);
+        Route::get('getTokenServer', [SettingTokenController::class, 'postGetToken']);
         Route::get('cekApiServer', [CbtMediaConf::class, 'cekKoneksi'])->name('cekApiServer');
         Route::auto('tarik-data', TarikDataController::class);
 
@@ -54,51 +55,17 @@ Route::middleware('isPeserta')->group(function () {
 });
 
 
-// Grup route untuk perintah Artisan
-Route::prefix('artisan')->group(function () {
-    Route::get('full-reset', function () {
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed --class=RefSeeder');
-        Artisan::call('storage:link');
-        Artisan::call('route:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('view:clear');
-        Artisan::call('event:clear');
+// // Grup route untuk perintah Artisan
+// Route::prefix('artisan')->group(function () {
+//     Route::get('full-reset', function () {
+//         Artisan::call('migrate:fresh');
+//         Artisan::call('db:seed --class=RefSeeder');
+//         Artisan::call('storage:link');
+//         Artisan::call('route:clear');
+//         Artisan::call('cache:clear');
+//         Artisan::call('view:clear');
+//         Artisan::call('event:clear');
 
-        return 'Migrate berhasil dijalankan!';
-    });
-    // Route::get('migrate', function () {
-    //     Artisan::call('migrate:fresh');
-    //     Artisan::call('db:seed --class=RefSeeder');
-    //     return 'Migrate berhasil dijalankan!';
-    // });
-    // Route::get('storage-link', function () {
-    //     Artisan::call('storage:link');
-    //     return 'Storage link berhasil dibuat!';
-    // });
-    // Route::get('event-clear', function () {
-    //     Artisan::call('event:clear');
-    //     return 'Event cache berhasil dihapus!';
-    // });
-
-    // Route::get('route-clear', function () {
-    //     Artisan::call('route:clear');
-    //     return 'Route berhasil dihapus!';
-    // });
-    // Route::get('config-cache', function () {
-    //     Artisan::call('config:cache');
-    //     return 'Config cache berhasil dibuat!';
-    // });
-    // Route::get('view-clear', function () {
-    //     Artisan::call('view:clear');
-    //     return 'View berhasil dihapus!';
-    // });
-    // Route::get('cache-clear', function () {
-    //     Artisan::call('cache:clear');
-    //     return 'Cache berhasil dihapus!';
-    // });
-    // Route::get('optimize', function () {
-    //     Artisan::call('optimize');
-    //     return 'Optimize berhasil dijalankan!';
-    // });
-});
+//         return 'Migrate berhasil dijalankan!';
+//     });
+// });
