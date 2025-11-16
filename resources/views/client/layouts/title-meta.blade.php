@@ -17,7 +17,7 @@
 <meta name="distribution" content="global">
 <meta name="coverage" content="Worldwide">
 <meta name="classification" content="Education">
-<meta name="slogan" content="AKREDITASI A (UNGGUL)">
+{{-- <meta name="slogan" content="Maju Bersama Hebat Semua"> --}}
 <meta name="copyright" content="{{ $sekolah?->nama ?? 'CBTMEDIA' }}">
 <meta http-equiv="Content-Language" content="id">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
