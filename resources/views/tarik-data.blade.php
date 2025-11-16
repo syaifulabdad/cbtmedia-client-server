@@ -52,112 +52,112 @@
                                         <td class="text-center pusat-sekolah"></td>
                                         <td class="text-center local-sekolah"></td>
                                         <td class="text-center status-sekolah"></td>
-                                        <td class="text-center"><a href="javascript:void(0)" onclick="tarikData('data-sekolah', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center"><a href="javascript:void(0)" onclick="tarikData('sekolah', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Semester</th>
                                         <td class="text-center pusat-semester"></td>
                                         <td class="text-center local-semester"></td>
                                         <td class="text-center status-semester"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-semester', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('semester', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Jurusan</th>
                                         <td class="text-center pusat-jurusan"></td>
                                         <td class="text-center local-jurusan"></td>
                                         <td class="text-center status-jurusan"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-jurusan', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('jurusan', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Mata Pelajaran</th>
                                         <td class="text-center pusat-mapel"></td>
                                         <td class="text-center local-mapel"></td>
                                         <td class="text-center status-mapel"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-mata-pelajaran', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('mata-pelajaran', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data PTK</th>
                                         <td class="text-center pusat-ptk"></td>
                                         <td class="text-center local-ptk"></td>
                                         <td class="text-center status-ptk"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-ptk', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('ptk', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Kelas</th>
                                         <td class="text-center pusat-rombel"></td>
                                         <td class="text-center local-rombel"></td>
                                         <td class="text-center status-rombel"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-rombongan-belajar', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('rombongan-belajar', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Ujian</th>
                                         <td class="text-center pusat-ujian"></td>
                                         <td class="text-center local-ujian"></td>
                                         <td class="text-center status-ujian"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-ujian', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('ujian', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Bank Soal</th>
                                         <td class="text-center pusat-bank_soal"></td>
                                         <td class="text-center local-bank_soal"></td>
                                         <td class="text-center status-bank_soal"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-soal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('soal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Soal</th>
                                         <td class="text-center pusat-soal"></td>
                                         <td class="text-center local-soal"></td>
                                         <td class="text-center status-soal"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-soal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('soal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Jadwal Ujian</th>
                                         <td class="text-center pusat-jadwal"></td>
                                         <td class="text-center local-jadwal"></td>
                                         <td class="text-center status-jadwal"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-jadwal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('jadwal', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Ruang Ujian</th>
                                         <td class="text-center pusat-ruang"></td>
                                         <td class="text-center local-ruang"></td>
                                         <td class="text-center status-ruang"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-ruang', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('ruang', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Peserta</th>
                                         <td class="text-center pusat-peserta"></td>
                                         <td class="text-center local-peserta"></td>
                                         <td class="text-center status-peserta"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-peserta', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('peserta', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Pengawas</th>
                                         <td class="text-center pusat-pengawas"></td>
                                         <td class="text-center local-pengawas"></td>
                                         <td class="text-center status-pengawas"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-pengawas', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('pengawas', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data User</th>
                                         <td class="text-center pusat-user"></td>
                                         <td class="text-center local-user"></td>
                                         <td class="text-center status-user"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-user', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('user', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Pengaturan</th>
                                         <td class="text-center pusat-pengaturan"></td>
                                         <td class="text-center local-pengaturan"></td>
                                         <td class="text-center status-pengaturan"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-pengaturan', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('pengaturan', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
                                         <th>Data Referensi</th>
                                         <td class="text-center pusat-referensi"></td>
                                         <td class="text-center local-referensi"></td>
                                         <td class="text-center status-referensi"></td>
-                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-referensi', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
+                                        <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('referensi', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                 </tbody>
                             </table>
