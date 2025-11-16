@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TarikData extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
     protected $table = 'tarik_data';
     protected $guarded = [];
 
