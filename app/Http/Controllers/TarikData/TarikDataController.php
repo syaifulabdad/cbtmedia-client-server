@@ -88,37 +88,37 @@ class TarikDataController extends Controller
         ]);
     }
 
-    public function dataReferensi(Request $request)
+    function dataMaster(Request $request)
     {
-        $cbtconf = new CbtMediaConf;
-        $cbtconf->getAuth();
-        $apiData = Http::withToken("$cbtconf->serverToken", "$cbtconf->serverAuthType")->get("$cbtconf->serverUrl/api/get-data/ref-agama");
+        $this->dataReferensi($request);
+        $this->dataPengaturan($request);
+        $this->dataSekolah($request);
+        $this->dataUser($request);
+        $this->dataMataPelajaran($request);
+        $this->dataSemester($request);
+        $this->dataJurusan($request);
+        $this->dataRombonganBelajar($request);
+        $this->dataPtk($request);
 
-        if ($apiData['success']) {
-            $columns = Schema::getColumnListing('ref_agama');
-            foreach ($apiData['data'] as $dt) {
-                $cekData = Agama::find($dt['id']);
-                $data = array();
-                foreach ($columns as $col) {
-                    if ($col != 'id') {
-                        $data[$col] = isset($dt[$col]) ? $dt[$col] : null;
-                    }
-                }
-
-                if ($cekData) {
-                    $cekData->update($data);
-                } else {
-                    $data['id'] = $dt['id'];
-                    Agama::create($data);
-                }
-            }
-
-            TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
-            return response()->json(['status' => TRUE, 'data' => 'referensi', 'message' => 'Data berhasil ditarik.!']);
-        }
+        TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
+        return response()->json(['status' => TRUE, 'data' => 'data-master', 'message' => 'Data berhasil ditarik.!']);
     }
 
-    public function dataRefAgama(Request $request)
+    function dataMasterUjian(Request $request)
+    {
+        $this->dataUjian($request);
+        $this->dataJadwal($request);
+        $this->dataServer($request);
+        $this->dataRuang($request);
+        $this->dataPengawas($request);
+        // $this->dataPeserta($request);
+        // $this->dataSoal($request);
+
+        TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
+        return response()->json(['status' => TRUE, 'data' => 'data-master-ujian', 'message' => 'Data berhasil ditarik.!']);
+    }
+
+    public function dataReferensi(Request $request)
     {
         $cbtconf = new CbtMediaConf;
         $cbtconf->getAuth();
@@ -703,7 +703,7 @@ class TarikDataController extends Controller
             }
 
             TarikData::where('nama', 'cbt-server')->update(['tarik_data_terakhir' => date('Y-m-d H:i:s')]);
-            return response()->json(['status' => TRUE, 'data' => 'peserta', 'message' => 'Data Pengawas berhasil ditarik.!']);
+            return response()->json(['status' => TRUE, 'data' => 'pengawas', 'message' => 'Data Pengawas berhasil ditarik.!']);
         }
     }
 
