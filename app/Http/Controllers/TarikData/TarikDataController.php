@@ -684,7 +684,7 @@ class TarikDataController extends Controller
                     $cekData->update($data);
                 } else {
                     $data['id'] = $dt['id'];
-                    Peserta::create($data);
+                    Pengawas::create($data);
                 }
             }
 
