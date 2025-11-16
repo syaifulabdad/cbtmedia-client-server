@@ -340,7 +340,7 @@
             tarikData();
         });
 
-        function tarikData(url = 'data-sekolah', onlyOne = false) {
+        function tarikData(url = 'data-master', onlyOne = false) {
             $.getJSON("{{ url('tarik-data') }}/" + url, function(data) {
                 if (data.status) {
                     if (onlyOne) {
