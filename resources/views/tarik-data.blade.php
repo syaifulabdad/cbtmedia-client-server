@@ -396,7 +396,7 @@
                                         allowEscapeKey: false,
                                         icon: "info",
                                         title: data.message,
-                                        // text: "Lanjut mengambil data {{ ucwords(strtolower(str_replace('-', ' ', $dataArr[$key + 1]))) }}...",
+                                        text: "Lanjut mengambil data {{ ucwords(strtolower(str_replace('-', ' ', $dataArr[$key + 1]))) }}...",
                                     });
                                     tarikData('data-{{ $dataArr[$key + 1] }}');
                                 }
