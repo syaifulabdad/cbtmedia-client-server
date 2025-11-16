@@ -368,7 +368,7 @@
                         @endphp
 
                         @foreach ($dataArr as $key => $data)
-                            @if ($data == 'data-soal')
+                            @if ($data == 'soal')
 
                                 if (data.data == 'data-soal') {
                                     $('.btnTarikData').html('<i class="ri-download-line me-1"></i> Tarik Data');
@@ -396,7 +396,7 @@
                                         allowEscapeKey: false,
                                         icon: "info",
                                         title: data.message,
-                                        text: "Lanjut mengambil data {{ ucwords(strtolower(str_replace('-', ' ', $dataArr[$key + 1]))) }}...",
+                                        // text: "Lanjut mengambil data {{ ucwords(strtolower(str_replace('-', ' ', $dataArr[$key + 1]))) }}...",
                                     });
                                     tarikData('data-{{ $dataArr[$key + 1] }}');
                                 }
