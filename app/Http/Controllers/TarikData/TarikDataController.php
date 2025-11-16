@@ -78,6 +78,7 @@ class TarikDataController extends Controller
                 'server' => Server::count(),
                 'ruang' => Ruang::count(),
                 'peserta' => Peserta::count(),
+                'pengawas' => Pengawas::count(),
                 'pengaturan' => Pengaturan::count(),
                 'user' => User::whereIn('type', ['siswa', 'pengawas', 'ops'])
                     ->whereIn('status', ['active', 'aktif'])
