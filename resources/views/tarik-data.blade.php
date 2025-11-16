@@ -363,13 +363,14 @@
                     } else {
 
                         @php
-                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
+                            // $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
+                            $dataArr = ['data-master', 'data-master-ujian', 'data-peserta', 'data-soal'];
                         @endphp
 
                         @foreach ($dataArr as $key => $data)
-                            @if ($data == 'referensi')
+                            @if ($data == 'data-soal')
 
-                                if (data.data == 'referensi') {
+                                if (data.data == 'data-soal') {
                                     $('.btnTarikData').html('<i class="ri-download-line me-1"></i> Tarik Data');
                                     Swal.fire({
                                         allowOutsideClick: false,
