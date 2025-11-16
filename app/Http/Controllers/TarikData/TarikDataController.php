@@ -672,7 +672,7 @@ class TarikDataController extends Controller
         if ($apiData['success']) {
             $columns = Schema::getColumnListing('pengawas');
             foreach ($apiData['data'] as $dt) {
-                $cekData = Peserta::withTrashed()->find($dt['id']);
+                $cekData = Pengawas::withTrashed()->find($dt['id']);
                 $data = array();
                 foreach ($columns as $col) {
                     if ($col != 'id') {
