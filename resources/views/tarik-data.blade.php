@@ -340,8 +340,8 @@
             tarikData();
         });
 
-        function tarikData(url = 'data-master', onlyOne = false) {
-            $.getJSON("{{ url('tarik-data') }}/" + url, function(data) {
+        function tarikData(url = 'sekolah', onlyOne = false) {
+            $.getJSON("{{ url('tarik-data') }}/data-" + url, function(data) {
                 if (data.status) {
                     if (onlyOne) {
                         Swal.fire({
@@ -363,14 +363,14 @@
                     } else {
 
                         @php
-                            // $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
-                            $dataArr = ['master', 'master-ujian', 'peserta', 'soal'];
+                            $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
+                            // $dataArr = ['master', 'master-ujian', 'peserta', 'soal'];
                         @endphp
 
                         @foreach ($dataArr as $key => $data)
-                            @if ($data == 'soal')
+                            @if ($data == 'referensi')
 
-                                if (data.data == 'data-soal') {
+                                if (data.data == 'referensi') {
                                     $('.btnTarikData').html('<i class="ri-download-line me-1"></i> Tarik Data');
                                     Swal.fire({
                                         allowOutsideClick: false,
@@ -398,7 +398,7 @@
                                         title: data.message,
                                         text: "Lanjut mengambil data {{ ucwords(strtolower(str_replace('-', ' ', $dataArr[$key + 1]))) }}...",
                                     });
-                                    tarikData('data-{{ $dataArr[$key + 1] }}');
+                                    tarikData('{{ $dataArr[$key + 1] }}');
                                 }
                             @endif
                         @endforeach
