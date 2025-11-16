@@ -364,7 +364,7 @@
 
                         @php
                             // $dataArr = ['sekolah', 'pengaturan', 'semester', 'jurusan', 'ptk', 'rombongan-belajar', 'mata-pelajaran', 'ujian', 'soal', 'jadwal', 'server', 'ruang', 'peserta', 'pengawas', 'user', 'referensi'];
-                            $dataArr = ['data-master', 'data-master-ujian', 'data-peserta', 'data-soal'];
+                            $dataArr = ['master', 'master-ujian', 'peserta', 'soal'];
                         @endphp
 
                         @foreach ($dataArr as $key => $data)
