@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::auto('profile', UserProfileController::class);
         Route::auto('api-token', ApiTokenController::class);
         Route::auto('setting-api', SettingTokenController::class);
-        Route::post('getTokenServer', [SettingTokenController::class, 'postGetToken']);
+        Route::get('getTokenServer', [SettingTokenController::class, 'postGetToken']);
         Route::get('cekApiServer', [CbtMediaConf::class, 'cekKoneksi'])->name('cekApiServer');
         Route::auto('tarik-data', TarikDataController::class);
 
