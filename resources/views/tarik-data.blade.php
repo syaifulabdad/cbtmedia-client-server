@@ -133,9 +133,9 @@
                                     </tr>
                                     <tr>
                                         <th>Data Pengawas</th>
-                                        <td class="text-center pusat-peserta"></td>
-                                        <td class="text-center local-peserta"></td>
-                                        <td class="text-center status-peserta"></td>
+                                        <td class="text-center pusat-pengawas"></td>
+                                        <td class="text-center local-pengawas"></td>
+                                        <td class="text-center status-pengawas"></td>
                                         <td class="text-center" width=""><a href="javascript:void(0)" onclick="tarikData('data-pengawas', true)" class="btn btn-primary btn-sm btnTarikDt d-none"><i class="ri-download-line"></i> Tarik Data</a></td>
                                     </tr>
                                     <tr>
